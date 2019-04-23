@@ -18,9 +18,9 @@ class MyApp extends StatelessWidget {
         // or simply save your changes to "hot reload" in a Flutter IDE).
         // Notice that the counter didn't reset back to zero; the application
         // is not restarted.
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.green,
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      home: MyHomePage(title: 'Radon Reporting'),
     );
   }
 }
@@ -44,16 +44,21 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+  static var _start;
+  static var _stop;
+  var _difference;
 
-  void _incrementCounter() {
+
+  void _printTimeStart() {
     setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
+      _start = DateTime.now();
+    });
+  }
+
+  void _printTimeStop() {
+    setState(() {
+      _stop = DateTime.now().toLocal();
+      _difference = _stop.difference(_start);
     });
   }
 
@@ -72,40 +77,85 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(widget.title),
       ),
       body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
+
         child: Column(
-          // Column is also layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
+
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
+
+            RaisedButton(
+              onPressed: _printTimeStart,
+              textColor: Colors.white,
+              padding: const EdgeInsets.all(0.0),
+              child: Container(
+                decoration: const BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: <Color>[Colors.red, Colors.green, Colors.blue],
+                  ),
+                ),
+                padding: const EdgeInsets.all(10.0),
+                child: Center(child: Text('Start')),
+              ),
             ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.display1,
+
+            Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Text(
+                'Start:',
+              ),
+            ),
+
+            Center(
+              child: Text(
+                '$_start',
+                style: Theme.of(context).textTheme.display1,
+              ),
+            ),
+
+            RaisedButton(
+              onPressed: _printTimeStop,
+              textColor: Colors.white,
+              padding: const EdgeInsets.all(0.0),
+              child: Container(
+                decoration: const BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: <Color>[Colors.red, Colors.green, Colors.blue],
+                  ),
+                ),
+                padding: const EdgeInsets.all(10.0),
+                child: Center(child: Text('Stop')),
+              ),
+            ),
+
+            Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Text(
+                'Stop:',
+              ),
+            ),
+
+            Center(
+              child: Text(
+                '$_stop',
+                style: Theme.of(context).textTheme.display1,
+              ),
+            ),
+
+            Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Text(
+                'Duration:',
+              ),
+            ),
+
+            Center(
+              child: Text(
+                '$_difference',
+                style: Theme.of(context).textTheme.display1,
+              ),
             ),
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
-    );
-  }
+    );}
 }
