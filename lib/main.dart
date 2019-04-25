@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:postgres/postgres.dart';
+import 'dart:async';
 
 void main() => runApp(MyApp());
 
@@ -25,6 +27,7 @@ class MyApp extends StatelessWidget {
   }
 }
 
+
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
 
@@ -44,14 +47,28 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+
+  var connection;
+
+  Future<dynamic> openConnection() async{
+    connection = new PostgreSQLConnection("localhost", 43790, "dart_test", username: "dart", password: "dart");
+    await connection.open();
+  }
+
+  Future<List> writeData() async{
+    connection.query("INSERT INTO stay (startdate, enddate) VALUES (2019-01-08 04:05:06, 2019-01-08 08:05:06)");
+    connection.query("SELECT * FROM stay WHERE id = @idParam", {"idParam" : 1});
+  }
+
   static var _start;
   static var _stop;
   var _difference;
 
-
   void _printTimeStart() {
     setState(() {
       _start = DateTime.now();
+      openConnection();
+      writeData();
     });
   }
 
@@ -159,3 +176,5 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
     );}
 }
+
+
