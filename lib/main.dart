@@ -51,7 +51,7 @@ class _MyHomePageState extends State<MyHomePage> {
   var connection;
 
   Future<dynamic> openConnection() async{
-    connection = new PostgreSQLConnection("localhost", 43790, "dart_test", username: "dart", password: "dart");
+    connection = new PostgreSQLConnection("localhost", 5432, "jonasschutz", username: "jonasschuetz", password: "tester2019");
     await connection.open();
   }
 
