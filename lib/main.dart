@@ -1,8 +1,15 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:postgres/postgres.dart';
 import 'dart:async';
+import 'package:flutter/services.dart';
 
-void main() => runApp(MyApp());
+import 'package:qr_code_scanner/qr_code_scanner.dart';
+
+import 'package:radon_reporter/scanner.dart';
+
+void main() => runApp(MaterialApp(home: QRViewExample()));
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
@@ -11,15 +18,6 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
         primarySwatch: Colors.green,
       ),
       home: MyHomePage(title: 'Radon Reporting'),
@@ -52,12 +50,24 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Future<dynamic> openConnection() async{
     connection = new PostgreSQLConnection("86.119.40.8", 5432, "tester", username: "tester", password: "tester2019");
+    //logger.debug("establish conn")
     await connection.open();
   }
 
   Future<List> writeData() async{
-    connection.query("INSERT INTO stay (startdate, enddate) VALUES (2019-01-08 04:05:06, 2019-01-08 08:05:06)");
-    connection.query("SELECT * FROM stay WHERE id = @idParam", {"idParam" : 1});
+    connection.query("INSERT INTO stay (startdate, enddate) VALUES (timestamp '2019-01-08 04:05:06', timestamp '2019-01-08 08:05:06')");
+    //var res = await connection.query("SELECT * FROM stay WHERE stay_id = 1");
+
+    List<List<dynamic>> results = await connection.query("SELECT * FROM stay WHERE stay_id = @aValue", substitutionValues: {
+      "aValue" : 1
+    });
+
+    for (final row in results) {
+      var a = row[1];
+      print(a);
+      var b = row[2];
+      print(b);
+    }
   }
 
   static var _start;
@@ -72,34 +82,29 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  void _printTimeStop() {
-    setState(() {
+  void _printTimeStop() async {
+    setState(()  async {
       _stop = DateTime.now().toLocal();
       _difference = _stop.difference(_start);
+      writeData();
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
+
     return Scaffold(
       appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
+        actions: <Widget>[      // Add 3 lines from here...
+          IconButton(icon: Icon(Icons.photo_camera), onPressed: (){
+          }),
+        ],
       ),
       body: Center(
-
         child: Column(
-
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-
             RaisedButton(
               onPressed: _printTimeStart,
               textColor: Colors.white,
@@ -177,4 +182,123 @@ class _MyHomePageState extends State<MyHomePage> {
     );}
 }
 
+
+class QRViewExample extends StatefulWidget {
+  const QRViewExample({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  State<StatefulWidget> createState() => _QRViewExampleState();
+}
+
+class _QRViewExampleState extends State<QRViewExample> {
+
+  var connection;
+
+  Future<dynamic> openConnection() async{
+    connection = new PostgreSQLConnection("86.119.40.8", 5432, "tester", username: "tester", password: "tester2019");
+    //logger.debug("establish conn")
+    await connection.open();
+  }
+
+  Future<List> writeStart() async{
+    connection.query("INSERT INTO stay (startdate, enddate) VALUES (timestamp '$_start', timestamp '2019-01-08 08:05:06')");
+
+    //var res = await connection.query("SELECT * FROM stay WHERE stay_id = 1");
+
+    List<List<dynamic>> results = await connection.query("SELECT * FROM stay");
+    print(results.last.toString());
+
+
+//    List<List<dynamic>> results = await connection.query("SELECT * FROM stay WHERE stay_id = @aValue", substitutionValues: {
+//      "aValue" : 1
+//    });
+//
+//    for (final row in results) {
+//      var a = row[1];
+//      print(a);
+//      var b = row[2];
+//      print(b);
+//    }
+  }
+
+  static var _start;
+  static var _stop;
+  var _difference;
+
+
+  void _printTimeStart() {
+    setState(() async {
+      _start = DateTime.now().toString();
+      //print(_start);
+      writeStart();
+      //openConnection();
+      //writeData();
+    });
+  }
+
+  void _printTimeStop() async {
+    setState(()  async {
+      _stop = DateTime.now().toLocal();
+      _difference = _stop.difference(_start);
+      writeStart();
+    });
+  }
+
+  final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
+  var qrText = "";
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Column(
+        children: <Widget>[
+          Expanded(
+            child: QRView(
+              key: qrKey,
+              onQRViewCreated: _onQRViewCreated,
+            ),
+            flex: 4,
+          ),
+          Expanded(
+            child: Text("This is the result of scan: $qrText"),
+            flex: 1,
+          ),
+          Expanded(
+            child:
+            RaisedButton(
+              onPressed: openConnection,
+              textColor: Colors.white,
+              child: Container(
+                decoration: const BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: <Color>[Colors.red, Colors.green, Colors.blue],
+                  ),
+                ),
+                child: Center(child: Text('open connection')),
+              ),
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  void _onQRViewCreated(QRViewController controller) {
+    final channel = controller.channel;
+    controller.init(qrKey);
+    channel.setMethodCallHandler((MethodCall call) async {
+      switch (call.method) {
+        case "onRecognizeQR":
+          dynamic arguments = call.arguments;
+          setState(() {
+            qrText = arguments.toString();
+            _printTimeStart();
+            new Duration(seconds: 10);
+            sleep(new Duration(seconds: 10));
+          });
+      }
+    });
+  }
+}
 
