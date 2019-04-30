@@ -291,12 +291,12 @@ class _QRViewExampleState extends State<QRViewExample> {
       switch (call.method) {
         case "onRecognizeQR":
           dynamic arguments = call.arguments;
-          setState(() {
-            qrText = arguments.toString();
-            _printTimeStart();
-            new Duration(seconds: 10);
-            sleep(new Duration(seconds: 10));
-          });
+          if(qrText=="") {
+            setState(() {
+              qrText = arguments.toString();
+              _printTimeStart();
+            });
+          }
       }
     });
   }
