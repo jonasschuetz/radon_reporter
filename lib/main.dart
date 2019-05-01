@@ -1,16 +1,15 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:postgres/postgres.dart';
 import 'dart:async';
 import 'package:flutter/services.dart';
-
 import 'package:qr_code_scanner/qr_code_scanner.dart';
-
-import 'package:radon_reporter/scanner.dart';
+import 'package:radon_reporter/controller.dart';
+import 'package:radon_reporter/view.dart';
+import 'package:radon_reporter/model.dart';
 
 void main() => runApp(MaterialApp(home: QRViewExample()));
 
+/*
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
@@ -181,6 +180,7 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
     );}
 }
+*/
 
 
 class QRViewExample extends StatefulWidget {
@@ -189,27 +189,26 @@ class QRViewExample extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() => _QRViewExampleState();
+  State<StatefulWidget> createState() => QRViewExampleState();
 }
 
+/*
 class _QRViewExampleState extends State<QRViewExample> {
+  static var _start;
+  static var _stop;
+  var _difference;
 
   var connection;
 
   Future<dynamic> openConnection() async{
     connection = new PostgreSQLConnection("86.119.40.8", 5432, "tester", username: "tester", password: "tester2019");
-    //logger.debug("establish conn")
     await connection.open();
   }
 
   Future<List> writeStart() async{
     connection.query("INSERT INTO stay (startdate, enddate) VALUES (timestamp '$_start', timestamp '2019-01-08 08:05:06')");
-
-    //var res = await connection.query("SELECT * FROM stay WHERE stay_id = 1");
-
     List<List<dynamic>> results = await connection.query("SELECT * FROM stay");
     print(results.last.toString());
-
 
 //    List<List<dynamic>> results = await connection.query("SELECT * FROM stay WHERE stay_id = @aValue", substitutionValues: {
 //      "aValue" : 1
@@ -223,26 +222,24 @@ class _QRViewExampleState extends State<QRViewExample> {
 //    }
   }
 
-  static var _start;
-  static var _stop;
-  var _difference;
+  Future<List> writeStop() async{
+    connection.query("INSERT INTO stay (startdate, enddate) VALUES (timestamp '$_start', timestamp '$_stop')");
+    List<List<dynamic>> results = await connection.query("SELECT * FROM stay");
+    print(results.last.toString());
+  }
 
-
-  void _printTimeStart() {
+  void _startOfStay() {
     setState(() async {
       _start = DateTime.now().toString();
-      //print(_start);
       writeStart();
-      //openConnection();
-      //writeData();
     });
   }
 
-  void _printTimeStop() async {
+  void _stopOfStay() async {
     setState(()  async {
-      _stop = DateTime.now().toLocal();
-      _difference = _stop.difference(_start);
-      writeStart();
+      _stop = DateTime.now();
+      writeStop();
+      //_difference = _stop.difference(_start);
     });
   }
 
@@ -285,20 +282,35 @@ class _QRViewExampleState extends State<QRViewExample> {
   }
 
   void _onQRViewCreated(QRViewController controller) {
+    var stopwatch = new Stopwatch();
+
     final channel = controller.channel;
     controller.init(qrKey);
+
     channel.setMethodCallHandler((MethodCall call) async {
       switch (call.method) {
         case "onRecognizeQR":
           dynamic arguments = call.arguments;
+
           setState(() {
-            qrText = arguments.toString();
-            _printTimeStart();
-            new Duration(seconds: 10);
-            sleep(new Duration(seconds: 10));
+
+            if(qrText=="") {
+              qrText = arguments.toString();
+              stopwatch..start();
+              _startOfStay();
+              qrText = "hello";
+            }
+            if(stopwatch.elapsed.inSeconds>10) {
+              qrText = arguments.toString();
+              print(stopwatch.elapsed.inSeconds.toString());
+              _stopOfStay();
+            }
+
           });
+
       }
     });
   }
 }
+*/
 
