@@ -41,6 +41,8 @@
 	</array>
 	<key>NSCameraUsageDescription</key>
 	<string>Camera for QR Codes</string>
+	<key>io.flutter.embedded_views_preview</key>
+	<true/>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
 </dict>
