@@ -1,245 +1,87 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:postgres/postgres.dart';
 import 'dart:async';
 import 'package:flutter/services.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
-import 'package:radon_reporter/controller.dart';
-import 'package:radon_reporter/view.dart';
-import 'package:radon_reporter/model.dart';
+import 'package:flutter/widgets.dart';
+import 'package:http/http.dart' as http;
 
-void main() => runApp(MaterialApp(home: QRViewExample()));
-
-/*
-class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.green,
-      ),
-      home: MyHomePage(title: 'Radon Reporting'),
-    );
-  }
+main(List<String> arguments) async {
+  runApp(MaterialApp(home: QRScanner()));
 }
 
 
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
+void setStay(Stay currentStay) async {
+  var url = 'http://86.119.40.8:8008/stays';
 
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
+  var jsonData = currentStay.toJson(currentStay);
 
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
+  var client = new HttpClient();
+  client.findProxy = null;
 
-  final String title;
+  Future<http.Response> foo(url, body) async{
+    var response = await http.post(Uri.parse(url), body: body);
+    print('Response status: ${response.statusCode}');
+    print('Response body: ${response.body}');
+    return response;
 
-  @override
-  _MyHomePageState createState() => _MyHomePageState();
+  }
+
+  foo(url, jsonData);
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class Stay {
+  int id;
+  DateTime startTime;
+  DateTime endTime;
+  int dose;
+  Stay({this.id, this.startTime, this.endTime, this.dose});
 
-  var connection;
+  Map<String, dynamic> toJson(Stay instance) => <String, dynamic>{
+    'id': instance.id.toString(),
+    'startTime': instance.startTime.toString(),
+    'endTime': instance.endTime.toString(),
+    'dose': instance.dose.toString()
+  };
 
-  Future<dynamic> openConnection() async{
-    connection = new PostgreSQLConnection("86.119.40.8", 5432, "tester", username: "tester", password: "tester2019");
-    //logger.debug("establish conn")
-    await connection.open();
-  }
-
-  Future<List> writeData() async{
-    connection.query("INSERT INTO stay (startdate, enddate) VALUES (timestamp '2019-01-08 04:05:06', timestamp '2019-01-08 08:05:06')");
-    //var res = await connection.query("SELECT * FROM stay WHERE stay_id = 1");
-
-    List<List<dynamic>> results = await connection.query("SELECT * FROM stay WHERE stay_id = @aValue", substitutionValues: {
-      "aValue" : 1
-    });
-
-    for (final row in results) {
-      var a = row[1];
-      print(a);
-      var b = row[2];
-      print(b);
-    }
-  }
-
-  static var _start;
-  static var _stop;
-  var _difference;
-
-  void _printTimeStart() {
-    setState(() {
-      _start = DateTime.now();
-      openConnection();
-      //writeData();
-    });
-  }
-
-  void _printTimeStop() async {
-    setState(()  async {
-      _stop = DateTime.now().toLocal();
-      _difference = _stop.difference(_start);
-      writeData();
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-        actions: <Widget>[      // Add 3 lines from here...
-          IconButton(icon: Icon(Icons.photo_camera), onPressed: (){
-          }),
-        ],
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            RaisedButton(
-              onPressed: _printTimeStart,
-              textColor: Colors.white,
-              padding: const EdgeInsets.all(0.0),
-              child: Container(
-                decoration: const BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: <Color>[Colors.red, Colors.green, Colors.blue],
-                  ),
-                ),
-                padding: const EdgeInsets.all(10.0),
-                child: Center(child: Text('Start')),
-              ),
-            ),
-
-            Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: Text(
-                'Start:',
-              ),
-            ),
-
-            Center(
-              child: Text(
-                '$_start',
-                style: Theme.of(context).textTheme.display1,
-              ),
-            ),
-
-            RaisedButton(
-              onPressed: _printTimeStop,
-              textColor: Colors.white,
-              padding: const EdgeInsets.all(0.0),
-              child: Container(
-                decoration: const BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: <Color>[Colors.red, Colors.green, Colors.blue],
-                  ),
-                ),
-                padding: const EdgeInsets.all(10.0),
-                child: Center(child: Text('Stop')),
-              ),
-            ),
-
-            Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: Text(
-                'Stop:',
-              ),
-            ),
-
-            Center(
-              child: Text(
-                '$_stop',
-                style: Theme.of(context).textTheme.display1,
-              ),
-            ),
-
-            Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: Text(
-                'Duration:',
-              ),
-            ),
-
-            Center(
-              child: Text(
-                '$_difference',
-                style: Theme.of(context).textTheme.display1,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );}
 }
-*/
 
-
-class QRViewExample extends StatefulWidget {
-  const QRViewExample({
+class QRScanner extends StatefulWidget {
+  const QRScanner({
     Key key,
   }) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() => QRViewExampleState();
+  State<StatefulWidget> createState() => QRScannerState();
 }
 
-/*
-class _QRViewExampleState extends State<QRViewExample> {
-  static var _start;
-  static var _stop;
-  var _difference;
+class QRScannerState extends State<QRScanner> {
 
-  var connection;
+  var currentStayID = 40;
+  var currentStay = new Stay();
 
-  Future<dynamic> openConnection() async{
-    connection = new PostgreSQLConnection("86.119.40.8", 5432, "tester", username: "tester", password: "tester2019");
-    await connection.open();
+  int setID(){
+    currentStayID++;
+    return currentStayID;
   }
 
-  Future<List> writeStart() async{
-    connection.query("INSERT INTO stay (startdate, enddate) VALUES (timestamp '$_start', timestamp '2019-01-08 08:05:06')");
-    List<List<dynamic>> results = await connection.query("SELECT * FROM stay");
-    print(results.last.toString());
 
-//    List<List<dynamic>> results = await connection.query("SELECT * FROM stay WHERE stay_id = @aValue", substitutionValues: {
-//      "aValue" : 1
-//    });
-//
-//    for (final row in results) {
-//      var a = row[1];
-//      print(a);
-//      var b = row[2];
-//      print(b);
-//    }
-  }
-
-  Future<List> writeStop() async{
-    connection.query("INSERT INTO stay (startdate, enddate) VALUES (timestamp '$_start', timestamp '$_stop')");
-    List<List<dynamic>> results = await connection.query("SELECT * FROM stay");
-    print(results.last.toString());
-  }
-
-  void _startOfStay() {
-    setState(() async {
-      _start = DateTime.now().toString();
-      writeStart();
+  void startStay() async{
+    setState(()  {
+      currentStay.startTime = DateTime.now();
     });
   }
 
-  void _stopOfStay() async {
-    setState(()  async {
-      _stop = DateTime.now();
-      writeStop();
-      //_difference = _stop.difference(_start);
+
+
+  void stopStay() async{
+    setState(()  {
+      currentStay.endTime = DateTime.now();
+      currentStay.dose = 123;
+      currentStay.id = setID();
+      setStay(currentStay);
     });
   }
 
@@ -264,7 +106,7 @@ class _QRViewExampleState extends State<QRViewExample> {
           Expanded(
             child:
             RaisedButton(
-              onPressed: openConnection,
+              onPressed: stopStay,
               textColor: Colors.white,
               child: Container(
                 decoration: const BoxDecoration(
@@ -272,7 +114,7 @@ class _QRViewExampleState extends State<QRViewExample> {
                     colors: <Color>[Colors.red, Colors.green, Colors.blue],
                   ),
                 ),
-                child: Center(child: Text('open connection')),
+                child: Center(child: Text('stop')),
               ),
             ),
           )
@@ -282,8 +124,6 @@ class _QRViewExampleState extends State<QRViewExample> {
   }
 
   void _onQRViewCreated(QRViewController controller) {
-    var stopwatch = new Stopwatch();
-
     final channel = controller.channel;
     controller.init(qrKey);
 
@@ -291,26 +131,14 @@ class _QRViewExampleState extends State<QRViewExample> {
       switch (call.method) {
         case "onRecognizeQR":
           dynamic arguments = call.arguments;
-
           setState(() {
-
-            if(qrText=="") {
-              qrText = arguments.toString();
-              stopwatch..start();
-              _startOfStay();
-              qrText = "hello";
-            }
-            if(stopwatch.elapsed.inSeconds>10) {
-              qrText = arguments.toString();
-              print(stopwatch.elapsed.inSeconds.toString());
-              _stopOfStay();
-            }
-
+             qrText = arguments.toString();
+             startStay();
           });
-
       }
     });
   }
 }
-*/
+
+
 
