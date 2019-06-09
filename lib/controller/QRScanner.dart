@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:postgres/postgres.dart';
 import 'dart:async';
 import 'package:flutter/services.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
@@ -10,14 +9,10 @@ import 'package:http/http.dart' as http;
 import 'package:radon_reporter/model/stay.dart' as stay;
 import 'package:radon_reporter/main.dart' as main;
 
-
-
 var currentStay = new stay.Stay();
-
 
 void setStay(stay.Stay currentStay) async {
   var url = 'http://86.119.40.8:8008/stays';
-
   var jsonData = currentStay.toJson(currentStay);
 
   var client = new HttpClient();
@@ -28,7 +23,6 @@ void setStay(stay.Stay currentStay) async {
     print('Response status: ${response.statusCode}');
     print('Response body: ${response.body}');
     return response;
-
   }
 
   foo(url, jsonData);
@@ -37,7 +31,7 @@ void setStay(stay.Stay currentStay) async {
 void stopStay() async{
   currentStay.endTime = DateTime.now();
   currentStay.dose = 123;
-  currentStay.id = 70;
+  currentStay.id = 80;
   setStay(currentStay);
 }
 
@@ -60,13 +54,11 @@ class QRScannerState extends State<QRScanner> {
     return currentStayID;
   }
 
-  void setRoomID(String ID){
+  void setRoomID(String id){
     //currentStay.roomID = int.parse(ID);
     currentStay.startTime = DateTime.now();
     //setStay(currentStay);
   }
-
-
 
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
   var qrText = "";
@@ -89,6 +81,7 @@ class QRScannerState extends State<QRScanner> {
           Expanded(
             child:
             RaisedButton(
+              onPressed: null,
               textColor: Colors.white,
               child: Container(
                 decoration: const BoxDecoration(

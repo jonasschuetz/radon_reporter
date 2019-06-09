@@ -9,6 +9,8 @@ import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as http;
 import 'package:radon_reporter/model/stay.dart' as stay;
 import 'package:radon_reporter/controller/QRScanner.dart' as QRScanner;
+import 'package:radon_reporter/view/DoseScreen.dart' as DoseScreen;
+
 
 
 main(List<String> arguments) async {
@@ -30,16 +32,21 @@ class StopScreenState extends State<StopScreen>{
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Second Route"),
+        title: Text('Stop Stay'),
       ),
       body: Center(
         child: RaisedButton(
-          onPressed: QRScanner.stopStay,
-          child: Text('Go back!'),
+          child: Text('stop'),
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => DoseScreen.DoseScreen()),
+            );
+            QRScanner.stopStay();
+          },
         ),
       ),
     );
   }
 
-}
-
+  }
