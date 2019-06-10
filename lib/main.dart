@@ -43,6 +43,7 @@ class StopScreenState extends State<StopScreen>{
               MaterialPageRoute(builder: (context) => DoseScreen.DoseScreen()),
             );
             QRScanner.stopStay();
+            //DoseScreen.getStay();
           },
         ),
       ),

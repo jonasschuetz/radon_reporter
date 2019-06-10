@@ -31,7 +31,7 @@ void setStay(stay.Stay currentStay) async {
 void stopStay() async{
   currentStay.endTime = DateTime.now();
   currentStay.dose = 123;
-  currentStay.id = 80;
+  currentStay.id = 100;
   setStay(currentStay);
 }
 
@@ -47,7 +47,7 @@ class QRScanner extends StatefulWidget {
 
 class QRScannerState extends State<QRScanner> {
 
-  var currentStayID = 70;
+  var currentStayID = 90;
 
   int setID(){
     currentStayID++;
