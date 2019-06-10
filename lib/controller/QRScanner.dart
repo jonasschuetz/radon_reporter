@@ -8,6 +8,10 @@ import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as http;
 import 'package:radon_reporter/model/stay.dart' as stay;
 import 'package:radon_reporter/main.dart' as main;
+//import 'package:radon_reporter/view/StopScreen.dart' as stopScreen;
+import 'package:radon_reporter/view/DoseScreen.dart' as DoseScreen;
+
+
 
 var currentStay = new stay.Stay();
 
@@ -60,39 +64,106 @@ class QRScannerState extends State<QRScanner> {
     //setStay(currentStay);
   }
 
+  bool scan = true;
+  bool stop = false;
+
+  void _changed(bool visibility, String field) {
+    setState(() {
+      if (field == "scan"){
+        scan = visibility;
+      }
+      if (field == "stop"){
+        stop = visibility;
+      }
+    });
+  }
+
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
   var qrText = "";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: new AppBar(
+        title: new Text('Aufenthalt loggen'),
+      ),
       body: Column(
         children: <Widget>[
-          Expanded(
-            child: QRView(
-              key: qrKey,
-              onQRViewCreated: _onQRViewCreated,
+          Visibility(
+            visible: scan,
+            child: Expanded(
+                child:
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(0,50,0,0),
+                  child: Text("Bitte scannen Sie den QR Code"),
+                ),
+              flex: 1,
             ),
-            flex: 4,
           ),
-          Expanded(
-            child: Text("This is the result of scan: $qrText"),
-            flex: 1,
-          ),
-          Expanded(
-            child:
-            RaisedButton(
-              onPressed: null,
-              textColor: Colors.white,
-              child: Container(
-                decoration: const BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: <Color>[Colors.red, Colors.green, Colors.blue],
+          Visibility(
+            visible: scan,
+            child: Expanded(
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(20.0,0,20.0,0),
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(20,0,20,40),
+                  child: QRView(
+                    key: qrKey,
+                    onQRViewCreated: _onQRViewCreated,
                   ),
                 ),
-                child: Center(child: Text('stop')),
+              ),
+              flex: 2,
+            ),
+          ),
+//          Expanded(
+//            child: Text("This is the result of scan: $qrText"),
+//            flex: 1,
+//          ),
+          Visibility(
+            visible: scan,
+            child: Expanded(
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(0,40,0,40),
+                child: RaisedButton(
+                  child: Text('Manuelle Eingabe'),
+                  onPressed: null,
+//                  () {
+//                Navigator.push(
+//                  context,
+//                  MaterialPageRoute(builder: (context) => DoseScreen.DoseScreen()),
+//                );
+//                QRScanner.stopStay();
+//                //DoseScreen.getStay();
+//              },
+                ),
               ),
             ),
-          )
+          ),
+          Visibility(
+            visible: stop,
+            child: Center(
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(0,300,0,0),
+                child: RaisedButton(
+                  child: Text('stop'),
+                  onPressed: () {
+
+//                  Navigator.push(
+//                    context,
+//                    MaterialPageRoute(builder: (context) => DoseScreen.DoseScreen()),
+//                  );
+                    stopStay();
+                    setState(() {
+                      stop = false;
+                      scan = true;
+                    });
+
+                    //DoseScreen.getStay();
+                  },
+                ),
+              ),
+            ),
+          ),
         ],
       ),
     );
@@ -108,17 +179,20 @@ class QRScannerState extends State<QRScanner> {
           dynamic arguments = call.arguments;
           setState(() {
             qrText = arguments.toString();
-            setRoomID(qrText);
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => main.StopScreen()),
-            );
-            dispose();
+            //setRoomID(qrText);
+            stop = true;
+            scan = false;
+//            Navigator.push(
+//              context,
+//              MaterialPageRoute(builder: (context) => stopScreen.StopScreen()),
+//            );
+            //dispose();
           });
       }
     });
   }
 }
+
 
 
 
