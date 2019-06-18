@@ -1,17 +1,7 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:postgres/postgres.dart';
-import 'dart:async';
-import 'package:flutter/services.dart';
-import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:flutter/widgets.dart';
-import 'package:http/http.dart' as http;
-import 'package:radon_reporter/model/stay.dart' as stay;
-import 'package:radon_reporter/controller/QRScanner.dart' as QRScanner;
-import 'package:radon_reporter/view/DoseScreen.dart' as DoseScreen;
-
-
+import 'package:radon_reporter/view/StaysScreen.dart' as StaysScreen;
+import 'package:radon_reporter/view/QRScreen.dart' as QRScreen;
 
 main(List<String> arguments) async {
   runApp(TabLayoutDemo());
@@ -28,8 +18,8 @@ class TabLayoutDemo extends StatelessWidget {
           child: new Scaffold(
             body: TabBarView(
               children: [
-                QRScanner.QRScanner(),
-                DoseScreen.DoseScreen(),
+                QRScreen.QRScanner(),
+                StaysScreen.StayScreen(),
                 new Container(
                   color: Colors.lightGreen,
                 ),

@@ -1,12 +1,7 @@
 import 'dart:io';
-
-import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:radon_reporter/controller/QRScanner.dart' as QRScanner;
 import 'dart:async';
 import 'package:http/http.dart' as http;
-import 'package:radon_reporter/model/stay.dart' as stay;
-import 'package:radon_reporter/main.dart' as main;
+import 'package:radon_reporter/model/Stay.dart' as Stay;
 import 'dart:convert';
 
 // Copyright 2017 The Chromium Authors. All rights reserved.
@@ -16,7 +11,7 @@ import 'dart:convert';
 void getStay() async {
   var url = 'http://86.119.40.8:8008/stays';
 
-  var data = new stay.Stay(id: 20, dose: 123);
+  var data = new Stay.Stay(id: 20, dose: 123);
   var jsonData = data.toJson(data);
 
 
@@ -33,27 +28,27 @@ void getStay() async {
   foo(url, jsonData);
 }
 
-Future<List<Stay>> fetchAndParseStays() async {
+Future<List<StayParse>> fetchAndParseStays() async {
 
   var jsonEndpoint = 'http://86.119.40.8:8008/stays';
 
   var res = await http.get(jsonEndpoint);
   var jsonStr = res.body;
   var parsedStayList = jsonDecode(jsonStr);
-  var stayList = <Stay>[];
+  var stayList = <StayParse>[];
   parsedStayList.forEach((parsedStay) {
     stayList.add(
-        new Stay.fromJsonMap(parsedStay)
+        new StayParse.fromJsonMap(parsedStay)
     );
   });
   return stayList;
 }
 
-class Stay {
+class StayParse {
   final int id;
   final int dose;
 
-  Stay.fromJsonMap(Map jsonMap) :
+  StayParse.fromJsonMap(Map jsonMap) :
         id = jsonMap['id'],
         dose = jsonMap['dose'];
 

@@ -1,27 +1,21 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:radon_reporter/controller/dose.dart' as dose;
-import 'dart:async';
-import 'package:http/http.dart' as http;
-import 'package:radon_reporter/model/stay.dart' as stay;
-import 'package:radon_reporter/main.dart' as main;
-import 'dart:convert';
+import 'package:radon_reporter/controller/StayController.dart' as StayController;
+
 
 // Copyright 2017 The Chromium Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
 
-class DoseScreen extends StatefulWidget {
+class StayScreen extends StatefulWidget {
 
   @override
-  State<StatefulWidget> createState() => DoseScreenState();
+  State<StatefulWidget> createState() => StayScreenState();
 }
 
 
-class DoseScreenState extends State<DoseScreen>{
+class StayScreenState extends State<StayScreen>{
 
   var stayWidgets = <Widget>[];
 
@@ -34,7 +28,7 @@ class DoseScreenState extends State<DoseScreen>{
   _getStays() async {
 
     List<Widget> widgets = [];
-    var stayList = await dose.fetchAndParseStays();
+    var stayList = await StayController.fetchAndParseStays();
     stayList.forEach((stay) =>
         widgets.add(
             new ListTile(

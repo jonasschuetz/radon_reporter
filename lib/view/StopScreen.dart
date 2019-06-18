@@ -7,9 +7,9 @@
 //import 'package:qr_code_scanner/qr_code_scanner.dart';
 //import 'package:flutter/widgets.dart';
 //import 'package:http/http.dart' as http;
-//import 'package:radon_reporter/model/stay.dart' as stay;
-//import 'package:radon_reporter/controller/QRScanner.dart' as QRScanner;
-//import 'package:radon_reporter/view/DoseScreen.dart' as DoseScreen;
+//import 'package:radon_reporter/model/Stay.dart' as stay;
+//import 'package:radon_reporter/controller/QRController.dart' as QRScanner;
+//import 'package:radon_reporter/view/StaysScreen.dart' as DoseScreen;
 //
 //class StopScreen extends StatefulWidget {
 //
