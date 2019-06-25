@@ -10,22 +10,16 @@ import 'dart:convert';
 
 void getStay() async {
   var url = 'http://86.119.40.8:8008/stays';
-
-  var data = new Stay.Stay(id: 20, dose: 123);
-  var jsonData = data.toJson(data);
-
-
   var client = new HttpClient();
   client.findProxy = null;
 
-  Future<http.Response> foo(url, body) async {
+  Future<http.Response> foo(url) async {
     var response = await http.get(Uri.parse(url));
     print('Response status: ${response.statusCode}');
     print('Response body: ${response.body}');
     return response;
   }
-
-  foo(url, jsonData);
+  foo(url);
 }
 
 Future<List<StayParse>> fetchAndParseStays() async {
@@ -47,14 +41,16 @@ Future<List<StayParse>> fetchAndParseStays() async {
 class StayParse {
   final int id;
   final int dose;
+  final DateTime startTime;
+  final DateTime endTime;
 
   StayParse.fromJsonMap(Map jsonMap) :
         id = jsonMap['id'],
-        dose = jsonMap['dose'];
+        dose = jsonMap['dose'],
+        startTime = DateTime.parse(jsonMap['startTime'].toString()),
+        endTime = DateTime.parse(jsonMap['endTime'].toString());
 
 //  String toString() {
 //    return 'name: $name\nuser name: $userName\naddress: $address';
 //  }
 }
-
-

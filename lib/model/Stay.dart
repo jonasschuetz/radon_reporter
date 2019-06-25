@@ -1,17 +1,16 @@
 
 class Stay {
-  int id;
   DateTime startTime;
   DateTime endTime;
-  int dose;
-  //int roomID;
-  Stay({this.id, this.startTime, this.endTime, this.dose});
+  double dose;
+  int roomID;
+  Stay({this.startTime, this.endTime, this.dose, this.roomID});
 
   Map<String, dynamic> toJson(Stay instance) => <String, dynamic>{
-    'id': instance.id.toString(),
-    'startTime': instance.startTime.toString(),
-    'endTime': instance.endTime.toString(),
-    'dose': instance.dose.toString()
+    'startTime': instance.startTime.toIso8601String(),
+    'endTime': instance.endTime.toIso8601String(),
+    'dose': instance.dose.toString(),
+    'roomID': instance.roomID.toString()
   };
 
 }

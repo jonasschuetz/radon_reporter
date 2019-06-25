@@ -2,8 +2,17 @@ import 'dart:io';
 import 'dart:async';
 import 'package:http/http.dart' as http;
 import 'package:radon_reporter/model/Stay.dart' as Stay;
+import 'package:radon_reporter/controller/doseCalculation.dart' as doseCalc;
+
 
 var currentStay = new Stay.Stay();
+
+//@override
+//void initState(){
+//  currentStay.startTime=DateTime.now();
+//  currentStay.roomID=1;
+//
+//}
 
 void setStay(Stay.Stay currentStay) async {
   var url = 'http://86.119.40.8:8008/stays';
@@ -24,10 +33,15 @@ void setStay(Stay.Stay currentStay) async {
 
 void stopStay() async{
   currentStay.endTime = DateTime.now();
-  currentStay.dose = 123;
-  currentStay.id = 100;
+  currentStay.dose = 456;
   setStay(currentStay);
 }
+
+void setRoomID(String id){
+  currentStay.roomID = int.parse(id);
+  doseCalc.getRoomDetails(int.parse(id));
+}
+
 //
 //
 //class QRScanner extends StatefulWidget {
