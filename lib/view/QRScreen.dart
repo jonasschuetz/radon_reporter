@@ -4,8 +4,8 @@ import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:flutter/widgets.dart';
 import 'package:radon_reporter/controller/QRController.dart' as QRController;
 import 'package:radon_reporter/controller/StayController.dart' as StayController;
-import 'package:radon_reporter/main.dart' as main;
-import 'package:radon_reporter/model/Stay.dart' as Stay;
+import 'package:radon_reporter/view/DoseScreen.dart' as DoseScreen;
+import 'package:radon_reporter/controller/doseCalculation.dart' as DoseCalc;
 
 
 
@@ -20,8 +20,6 @@ class QRScanner extends StatefulWidget {
 
 class QRScannerState extends State<QRScanner> {
 
-
-
   bool scan = true;
   bool stop = false;
   bool manual = false;
@@ -35,9 +33,7 @@ class QRScannerState extends State<QRScanner> {
     super.dispose();
   }
 
- // Future<String> lastStay = getLastStay();
-
-
+  // Future<String> lastStay = getLastStay();
 
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
   var qrText = "";
@@ -45,7 +41,7 @@ class QRScannerState extends State<QRScanner> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('My Flutter App'),
+        title: Center(child: Text('Erfassen')),
       ),
       body: Column(
         children: <Widget>[
@@ -78,7 +74,8 @@ class QRScannerState extends State<QRScanner> {
           ),
           Visibility(
             visible: scan,
-            child: Expanded(
+            child:
+            Expanded(
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(0,40,0,40),
                 child: RaisedButton(
@@ -93,17 +90,17 @@ class QRScannerState extends State<QRScanner> {
               ),
             ),
           ),
-          Visibility(
-            visible: scan,
-            child: Expanded(
-              child:
-              Padding(
-                padding: const EdgeInsets.fromLTRB(0,50,0,0),
-                child: Text('laststay'),
-              ),
-              flex: 1,
-            ),
-          ),
+//          Visibility(
+//            visible: scan,
+//            child: Expanded(
+//              child:
+//              Padding(
+//                padding: const EdgeInsets.fromLTRB(0,50,0,0),
+//                child: DoseScreen.LastStay(),
+//              ),
+//              flex: 1,
+//            ),
+//          ),
 
 
 
@@ -112,18 +109,18 @@ class QRScannerState extends State<QRScanner> {
             visible: manual,
             child: Column(
               children: <Widget>[
-                const SizedBox(height: 20.0),
+                const SizedBox(height: 100.0),
                 Padding(
                   padding: const EdgeInsets.all(20.0),
                   child: TextFormField(
                     decoration: InputDecoration(
-                        hintText: 'Geben Sie den Code ein'
+                        hintText: 'Bitte geben Sie die Raumnummer ein'
                     ),
                     controller: myController,),
                 ),
                 const SizedBox(height: 20.0),
                 RaisedButton(
-                  child: Text('check'),
+                  child: Text('Aufenthalt starten'),
                   onPressed: () {
                     setState(() {
                       QRController.currentStay.startTime = DateTime.now();
@@ -138,45 +135,31 @@ class QRScannerState extends State<QRScanner> {
           ),
 
 
-
+          //Stop view
           Visibility(
             visible: stop,
             child: Column(
               children: <Widget>[
-                RaisedButton(
-                  child: Text('stop'),
-                  onPressed: () {
-                    QRController.stopStay();
-                    setState(() {
-                      stop = false;
-                      scan = true;
-                    });
-                  },
-                ),
+                const SizedBox(height: 50.0),
+                Text('Raumnummer 1235'),
                 const SizedBox(height: 8.0),
-                Text('hello'),
+                Text('Aufenthalt gestartet 13.02'),
+                const SizedBox(height: 50.0),
+                Center(
+                  child: RaisedButton(
+                    child: Text('Stopp'),
+                    onPressed: () {
+                      QRController.stopStay();
+                      setState(() {
+                        stop = false;
+                        scan = true;
+                      });
+                    },
+                  ),
+                ),
               ],
             ),
           ),
-          //Stop view
-//          Visibility(
-//            visible: stop,
-//            child: Center(
-//              child: Padding(
-//                padding: const EdgeInsets.fromLTRB(0,300,0,0),
-//                child: RaisedButton(
-//                  child: Text('stop'),
-//                  onPressed: () {
-//                    QRController.stopStay();
-//                    setState(() {
-//                      stop = false;
-//                      scan = true;
-//                    });
-//                  },
-//                ),
-//              ),
-//            ),
-//          ),
         ],
       ),
     );
@@ -194,7 +177,7 @@ class QRScannerState extends State<QRScanner> {
           setState(() {
             qrText = arguments.toString();
             QRController.currentStay.startTime = DateTime.now();
-            QRController.setRoomID(qrText);
+            DoseCalc.getRoomDetails(1);
             stop = true;
             scan = false;
           });

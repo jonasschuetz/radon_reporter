@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:radon_reporter/view/StaysScreen.dart' as StaysScreen;
 import 'package:radon_reporter/view/QRScreen.dart' as QRScreen;
+import 'package:radon_reporter/view/DoseScreen.dart' as DoseScreen;
+
 
 main(List<String> arguments) async {
   runApp(MyApp());
@@ -31,31 +33,31 @@ class MyStatefulWidgetState extends State<MyStatefulWidget> {
   int _currentIndex = 0;
   final List<Widget> _children = [
     QRScreen.QRScanner(),
-    StaysScreen.StayScreen(),
+    DoseScreen.LastStay(),
     StaysScreen.StayScreen()
-
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-            body: _children[_currentIndex], // new
+      body: _children[_currentIndex], // new
       bottomNavigationBar: BottomNavigationBar(
         onTap: onTabTapped,   // new
         currentIndex: _currentIndex, // new
         items: [
           new BottomNavigationBarItem(
-            icon: Icon(Icons.play_circle_outline),
-            title: Text('Aufenthalt'),
+            icon: Icon(Icons.access_time),
+            title: Text('Erfassen'),
           ),
           new BottomNavigationBarItem(
-            icon: Icon(Icons.list),
+              icon: Icon(Icons.data_usage),
+              title: Text('Dosis')
+          ),
+          new BottomNavigationBarItem(
+            icon: Icon(Icons.view_list),
             title: Text('Aufenthalte'),
           ),
-          new BottomNavigationBarItem(
-              icon: Icon(Icons.person),
-              title: Text('Profil')
-          ),
+
           new BottomNavigationBarItem(
             icon: Icon(Icons.business),
             title: Text('Anlagen'),
@@ -73,73 +75,3 @@ class MyStatefulWidgetState extends State<MyStatefulWidget> {
   }
 
 }
-
-
-
-//
-//TabController _tabController;
-//
-//@override
-//void initState() {
-//  _tabController = new TabController(length: 3, vsync: null );
-//
-//  globals.tabController = _tabController;
-//
-//  //super.initState();
-//}
-//
-////@Copyright by uncoded-decimal https://github.com/uncoded-decimal/Flutter_gram
-//class TabLayoutDemo extends StatelessWidget {
-//
-//  static final staysScreenKey = new GlobalKey<StaysScreen.StayScreenState>();
-//  static final qrScreenKey = new GlobalKey<QRScreen.QRScannerState>();
-//
-//  TabController tabController;
-//
-//  @override
-//  Widget build(BuildContext context) {
-//    return new MaterialApp(
-//      color: Colors.yellow,
-//      home: DefaultTabController(
-//        length: 4,
-//          child: Builder(builder: (BuildContext context) {
-//            return Scaffold(
-//              body: TabBarView(
-//                children: [
-//                  QRScreen.QRScanner(),
-//                  StaysScreen.StayScreen(),
-//                  new Container(
-//                    color: Colors.lightGreen,
-//                  ),
-//                  new Container(
-//                    color: Colors.red,
-//                  ),
-//                ],
-//              ),
-//              bottomNavigationBar: new TabBar(
-//                tabs: [
-//                  Tab(
-//                    icon: new Icon(Icons.home),
-//                  ),
-//                  Tab(
-//                    icon: new Icon(Icons.list),
-//                  ),
-//                  Tab(
-//                    icon: new Icon(Icons.perm_identity),
-//                  ),
-//                  Tab(icon: new Icon(Icons.settings),)
-//                ],
-//                labelColor: Colors.red,
-//                unselectedLabelColor: Colors.blue,
-//                indicatorSize: TabBarIndicatorSize.label,
-//                indicatorPadding: EdgeInsets.all(5.0),
-//                indicatorColor: Colors.red,
-//              ),
-//              backgroundColor: Colors.white,
-//            );
-//          }
-//          ),
-//        ),
-//    );
-//  }
-//}

@@ -1,11 +1,17 @@
 class Room {
-  int averageBq;
+  int averageValue;
   String name;
-  Room({this.name, this.averageBq});
+  DateTime createdAt;
+  DateTime updatedAt;
+
+  Room({this.name, this.averageValue, this.createdAt ,this.updatedAt});
 
   Map<String, dynamic> toJson(Room instance) => <String, dynamic>{
     'name': instance.name,
-    'averageBq': instance.averageBq.toString()
+    'averageBq': instance.averageValue.toString(),
+    'createdAt': instance.createdAt.toIso8601String(),
+    'updatedAt': instance.updatedAt.toIso8601String(),
+
   };
 
 }

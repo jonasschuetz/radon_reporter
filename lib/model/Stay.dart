@@ -2,7 +2,7 @@
 class Stay {
   DateTime startTime;
   DateTime endTime;
-  double dose;
+  int dose;
   int roomID;
   Stay({this.startTime, this.endTime, this.dose, this.roomID});
 

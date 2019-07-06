@@ -9,7 +9,7 @@ import 'dart:convert';
 // found in the LICENSE file.
 
 void getStay() async {
-  var url = 'http://86.119.40.8:8008/stays';
+  var url = 'http://86.119.40.8:8008/stay';
   var client = new HttpClient();
   client.findProxy = null;
 
@@ -24,7 +24,23 @@ void getStay() async {
 
 Future<List<StayParse>> fetchAndParseStays() async {
 
-  var jsonEndpoint = 'http://86.119.40.8:8008/stays';
+  var jsonEndpoint = 'http://86.119.40.8:8008/stay';
+
+  var res = await http.get(jsonEndpoint);
+  var jsonStr = res.body;
+  var parsedStayList = jsonDecode(jsonStr);
+  var stayList = <StayParse>[];
+  parsedStayList.forEach((parsedStay) {
+    stayList.add(
+        new StayParse.fromJsonMap(parsedStay)
+    );
+  });
+  return stayList;
+}
+
+Future<List<StayParse>> fetchAndParseStay(int id) async {
+
+  var jsonEndpoint = 'http://86.119.40.8:8008/stay/'+id.toString();
 
   var res = await http.get(jsonEndpoint);
   var jsonStr = res.body;
@@ -49,8 +65,4 @@ class StayParse {
         dose = jsonMap['dose'],
         startTime = DateTime.parse(jsonMap['startTime'].toString()),
         endTime = DateTime.parse(jsonMap['endTime'].toString());
-
-//  String toString() {
-//    return 'name: $name\nuser name: $userName\naddress: $address';
-//  }
 }
