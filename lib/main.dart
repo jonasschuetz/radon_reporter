@@ -3,6 +3,8 @@ import 'package:flutter/widgets.dart';
 import 'package:radon_reporter/view/StaysScreen.dart' as StaysScreen;
 import 'package:radon_reporter/view/QRScreen.dart' as QRScreen;
 import 'package:radon_reporter/view/DoseScreen.dart' as DoseScreen;
+import 'package:radon_reporter/view/RoomsScreen.dart' as RoomScreen;
+
 
 
 main(List<String> arguments) async {
@@ -34,7 +36,8 @@ class MyStatefulWidgetState extends State<MyStatefulWidget> {
   final List<Widget> _children = [
     QRScreen.QRScanner(),
     DoseScreen.LastStay(),
-    StaysScreen.StayScreen()
+    StaysScreen.StayScreen(),
+    RoomScreen.RoomScreen()
   ];
 
   @override

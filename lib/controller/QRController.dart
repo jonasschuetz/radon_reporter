@@ -2,13 +2,13 @@ import 'dart:io';
 import 'dart:async';
 import 'package:http/http.dart' as http;
 import 'package:radon_reporter/model/Stay.dart' as Stay;
-import 'package:radon_reporter/controller/doseCalculation.dart' as doseCalc;
+import 'package:radon_reporter/controller/DoseCalculation.dart' as doseCalc;
 
 
 var currentStay = new Stay.Stay();
 
 void setStay(Stay.Stay currentStay) async {
-  var url = 'http://86.119.40.8:8008/stay/create';
+  var url = 'https://radonweb.herokuapp.com/stay/create';
   var jsonData = currentStay.toJson(currentStay);
 
   var client = new HttpClient();
@@ -26,7 +26,6 @@ void setStay(Stay.Stay currentStay) async {
 
 void stopStay() async{
   currentStay.endTime = DateTime.now();
-  //int dose = 456;
   doseCalc.doseCalculation();
   setStay(currentStay);
 }

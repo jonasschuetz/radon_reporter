@@ -5,7 +5,8 @@ import 'package:flutter/widgets.dart';
 import 'package:radon_reporter/controller/QRController.dart' as QRController;
 import 'package:radon_reporter/controller/StayController.dart' as StayController;
 import 'package:radon_reporter/view/DoseScreen.dart' as DoseScreen;
-import 'package:radon_reporter/controller/doseCalculation.dart' as DoseCalc;
+import 'package:radon_reporter/controller/DoseCalculation.dart' as DoseCalc;
+import 'package:radon_reporter/controller/RoomController.dart' as RoomController;
 
 
 
@@ -116,7 +117,11 @@ class QRScannerState extends State<QRScanner> {
                     decoration: InputDecoration(
                         hintText: 'Bitte geben Sie die Raumnummer ein'
                     ),
-                    controller: myController,),
+                    controller: myController,
+                    onSaved: (String value) {
+                      RoomController.getRoomDetails(int.parse(value));
+                    },
+                  ),
                 ),
                 const SizedBox(height: 20.0),
                 RaisedButton(
@@ -141,9 +146,11 @@ class QRScannerState extends State<QRScanner> {
             child: Column(
               children: <Widget>[
                 const SizedBox(height: 50.0),
-                Text('Raumnummer 1235'),
+                Text('Raumnummer '+qrText),
                 const SizedBox(height: 8.0),
-                Text('Aufenthalt gestartet 13.02'),
+                Text('Aufenthalt gestartet '+DateTime.now().toIso8601String()
+                   // +QRController.currentStay.startTime.hour.toString()+":"+QRController.currentStay.startTime.minute.toString()
+                ),
                 const SizedBox(height: 50.0),
                 Center(
                   child: RaisedButton(
@@ -177,9 +184,10 @@ class QRScannerState extends State<QRScanner> {
           setState(() {
             qrText = arguments.toString();
             QRController.currentStay.startTime = DateTime.now();
-            DoseCalc.getRoomDetails(1);
             stop = true;
             scan = false;
+            RoomController.getRoomDetails(int.parse(qrText));
+
           });
       }
     });

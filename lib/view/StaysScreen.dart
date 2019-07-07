@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:radon_reporter/controller/StayController.dart' as StayController;
 import 'package:radon_reporter/controller/QRController.dart' as QRController;
-import 'package:radon_reporter/model/Stay.dart' as Stay;
+import 'package:radon_reporter/model/Room.dart' as Room;
+import 'package:radon_reporter/controller/RoomController.dart' as RoomController;
+import 'package:radon_reporter/view/Colors.dart' as Colors;
 
 
 //Some lines of code are from:
@@ -29,32 +31,35 @@ class StayScreenState extends State<StayScreen>{
 
   _getStays() async {
     List<Widget> widgets = [];
-    Stay.Stay stays;
     var stayList = await StayController.fetchAndParseStays();
+    var roomList = await RoomController.fetchAndParseRooms();
+    //stayList.where((stay)=> stay.id==1);
     stayList.sort((a,b) => a.startTime.compareTo(b.startTime));
+    roomList.sort((a,b) => a.id.compareTo(b.id));
     stayList.forEach((stay) =>
         widgets.add(
             Column(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
-                new Text(stay.startTime.weekday.toString()),
+                new Text(stay.startTime.day.toString()+"."+stay.startTime.month.toString()+"."+stay.startTime.year.toString()),
                 Card(
+                  color: Color(247247247),
                   child: Padding(
                     padding: const EdgeInsets.fromLTRB(0,8,0,8),
                     child: new ListTile(
-                      title: new Text("Id "+stay.id.toString()),
+                      title: new Text(roomList.elementAt(stay.roomId-1).name),
                       subtitle: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          new Text("Raumnummer: "),
+                          new Text("Raumnummer: "+stay.roomId.toString()),
                           new Text("Aufenthaltsdauer: " +
-                              stay.startTime.toLocal().hour.toString()+":"+stay.startTime.minute.toString()+
-                              " - "+stay.endTime.toLocal().hour.toString()+":"+stay.endTime.minute.toString()
+                              stay.startTime.hour.toString()+":"+stay.startTime.minute.toString()+
+                              " - "+stay.endTime.hour.toString()+":"+stay.endTime.minute.toString()
                           ),
-                          new Text("Belastung Raum: "),
+                          new Text("Belastung Raum: "+roomList.elementAt(stay.roomId-1).averageValue.toString() ),
                           Row(
                             children: <Widget>[
-                              new Text("0.002 msv"),
+                              new Text(stay.dose.toString()+" msv"),
                               PopupMenuButton(
                                 onSelected: (result) { setState(() {
                                   result;

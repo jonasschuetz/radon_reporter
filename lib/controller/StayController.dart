@@ -8,23 +8,9 @@ import 'dart:convert';
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-void getStay() async {
-  var url = 'http://86.119.40.8:8008/stay';
-  var client = new HttpClient();
-  client.findProxy = null;
-
-  Future<http.Response> foo(url) async {
-    var response = await http.get(Uri.parse(url));
-    print('Response status: ${response.statusCode}');
-    print('Response body: ${response.body}');
-    return response;
-  }
-  foo(url);
-}
-
 Future<List<StayParse>> fetchAndParseStays() async {
 
-  var jsonEndpoint = 'http://86.119.40.8:8008/stay';
+  var jsonEndpoint = 'https://radonweb.herokuapp.com/api/stay';
 
   var res = await http.get(jsonEndpoint);
   var jsonStr = res.body;
@@ -40,7 +26,7 @@ Future<List<StayParse>> fetchAndParseStays() async {
 
 Future<List<StayParse>> fetchAndParseStay(int id) async {
 
-  var jsonEndpoint = 'http://86.119.40.8:8008/stay/'+id.toString();
+  var jsonEndpoint = 'https://radonweb.herokuapp.com/api/stay/'+id.toString();
 
   var res = await http.get(jsonEndpoint);
   var jsonStr = res.body;
@@ -56,13 +42,16 @@ Future<List<StayParse>> fetchAndParseStay(int id) async {
 
 class StayParse {
   final int id;
-  final int dose;
+  final double dose;
   final DateTime startTime;
   final DateTime endTime;
+  final int roomId;
 
   StayParse.fromJsonMap(Map jsonMap) :
         id = jsonMap['id'],
         dose = jsonMap['dose'],
         startTime = DateTime.parse(jsonMap['startTime'].toString()),
-        endTime = DateTime.parse(jsonMap['endTime'].toString());
+        endTime = DateTime.parse(jsonMap['endTime'].toString()),
+        roomId = jsonMap['roomId']
+  ;
 }
