@@ -8,7 +8,7 @@ import 'package:radon_reporter/controller/DoseCalculation.dart' as doseCalc;
 var currentStay = new Stay.Stay();
 
 void setStay(Stay.Stay currentStay) async {
-  var url = 'https://radonweb.herokuapp.com/stay/create';
+  var url = 'https://radonweb.herokuapp.com/api/stay/create';
   var jsonData = currentStay.toJson(currentStay);
 
   var client = new HttpClient();
