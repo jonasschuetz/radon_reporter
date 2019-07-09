@@ -44,7 +44,7 @@ class RoomScreenState extends State<RoomScreen>{
                   child: Padding(
                     padding: const EdgeInsets.fromLTRB(0,8,0,8),
                     child: new ListTile(
-                      title: new Text(room.id.toString()),
+                      title: new Text("ID: "+room.id.toString()),
                       subtitle: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[

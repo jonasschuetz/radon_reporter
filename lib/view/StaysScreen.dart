@@ -33,17 +33,18 @@ class StayScreenState extends State<StayScreen>{
     List<Widget> widgets = [];
     var stayList = await StayController.fetchAndParseStays();
     var roomList = await RoomController.fetchAndParseRooms();
-    //stayList.where((stay)=> stay.id==1);
-    stayList.sort((a,b) => a.startTime.compareTo(b.startTime));
+    stayList.sort((a,b) => b.startTime.compareTo(a.startTime));
     roomList.sort((a,b) => a.id.compareTo(b.id));
     stayList.forEach((stay) =>
         widgets.add(
             Column(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
+                const SizedBox(height: 5.0),
                 new Text(stay.startTime.day.toString()+"."+stay.startTime.month.toString()+"."+stay.startTime.year.toString()),
+                const SizedBox(height: 5.0),
                 Card(
-                  color: Color(247247247),
+                  //color: Color(247247247),
                   child: Padding(
                     padding: const EdgeInsets.fromLTRB(0,8,0,8),
                     child: new ListTile(
@@ -58,28 +59,39 @@ class StayScreenState extends State<StayScreen>{
                           ),
                           new Text("Belastung Raum: "+roomList.elementAt(stay.roomId-1).averageValue.toString() ),
                           Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
                             children: <Widget>[
-                              new Text(stay.dose.toString()+" msv"),
-                              PopupMenuButton(
-                                onSelected: (result) { setState(() {
-                                  result;
-                                });},
-                                itemBuilder: (BuildContext context) => <PopupMenuEntry>[
-                                  const PopupMenuItem(
-                                    value: 1,
-                                    child: ListTile(
-                                        leading: Icon(Icons.edit),
-                                        title: Text('Bearbeiten')
+                              Expanded(
+                                child: Text(""),
+                                flex: 1,
+                              ),
+                              Expanded(
+                                  flex: 5,
+                                  child: Center(child: new Text(stay.dose.toString()+" msv"))
+                              ),
+                              Expanded(
+                                flex: 0,
+                                child: PopupMenuButton(
+                                  onSelected: (result) { setState(() {
+                                    result;
+                                  });},
+                                  itemBuilder: (BuildContext context) => <PopupMenuEntry>[
+                                    const PopupMenuItem(
+                                      value: 1,
+                                      child: ListTile(
+                                          leading: Icon(Icons.edit),
+                                          title: Text('Bearbeiten')
+                                      ),
                                     ),
-                                  ),
-                                  const PopupMenuItem(
-                                    value: 2,
-                                    child: ListTile(
-                                        leading: Icon(Icons.close),
-                                        title: Text('Löschen')
+                                    const PopupMenuItem(
+                                      value: 2,
+                                      child: ListTile(
+                                          leading: Icon(Icons.close),
+                                          title: Text('Löschen')
+                                      ),
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
                             ],
                           ),
@@ -131,15 +143,15 @@ class StayScreenState extends State<StayScreen>{
                 const SizedBox(height: 20.0),
               ],
             ),
-          ),
-          Expanded(
-            child:
-            new ListView(
-                children: _stayWidgets
-            )
-          ),
-        ],
-      )
+            ),
+            Expanded(
+                child:
+                new ListView(
+                    children: _stayWidgets
+                )
+            ),
+          ],
+        )
     );
   }
 

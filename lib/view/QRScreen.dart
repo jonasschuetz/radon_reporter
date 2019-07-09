@@ -149,7 +149,7 @@ class QRScannerState extends State<QRScanner> {
                 const SizedBox(height: 50.0),
                 Text('Raumnummer '+qrText),
                 const SizedBox(height: 8.0),
-                Text('Aufenthalt gestartet '+DateTime.now().toIso8601String()
+                Text('Aufenthalt gestartet '+DateTime.now().hour.toString()+":"+DateTime.now().minute.toString()
                    // +QRController.currentStay.startTime.hour.toString()+":"+QRController.currentStay.startTime.minute.toString()
                 ),
                 const SizedBox(height: 50.0),
