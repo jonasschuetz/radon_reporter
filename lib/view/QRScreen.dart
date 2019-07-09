@@ -7,6 +7,7 @@ import 'package:radon_reporter/controller/StayController.dart' as StayController
 import 'package:radon_reporter/view/DoseScreen.dart' as DoseScreen;
 import 'package:radon_reporter/controller/DoseCalculation.dart' as DoseCalc;
 import 'package:radon_reporter/controller/RoomController.dart' as RoomController;
+import 'package:radon_reporter/controller/DoseController.dart' as DoseController;
 
 
 
@@ -187,7 +188,7 @@ class QRScannerState extends State<QRScanner> {
             stop = true;
             scan = false;
             RoomController.getRoomDetails(int.parse(qrText));
-
+            DoseController.getEmpDetails();
           });
       }
     });

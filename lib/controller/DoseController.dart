@@ -20,9 +20,16 @@ var currentEmp = new Employee.Employee();
 //  return stay.first;
 //}
 
+Future getEmpDetails() async {
+  var empList = await fetchAndParseEmps();
+  empList.sort((a,b) => a.id.compareTo(b.id));
+  currentEmp.dosis  = empList.last.dosis;
+  currentEmp.firstName = empList.last.firstName;
+  currentEmp.lastName = empList.last.lastName;
+  print(empList.last.lastName);
+}
+
 void setDose(Employee.Employee emp) async {
-  currentEmp.firstName ="Hans";
-  currentEmp.lastName="Muster";
   var url = 'https://radonweb.herokuapp.com/api/employee/create';
   var jsonData = emp.toJson(emp);
 
@@ -62,11 +69,11 @@ class EmpParse {
   final int id;
   final String firstName;
   final String lastName;
-  final double dose;
+  final double dosis;
 
   EmpParse.fromJsonMap(Map jsonMap) :
         id = jsonMap['id'],
-        dose = jsonMap['dose'],
+        dosis = jsonMap['dosis'],
         lastName = jsonMap['lastName'],
         firstName = jsonMap['firstName']
   ;

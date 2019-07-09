@@ -6,17 +6,12 @@ import 'package:radon_reporter/controller/DoseController.dart' as DoseController
 
 
 Future doseCalculation()   {
-  //var empList = await DoseController.fetchAndParseEmps();
-  //empList.sort((a,b) => a.id.compareTo(b.id));
- // DoseController.currentEmp.dose  = empList.elementAt(0).dose;
   var duration = QRController.currentStay.endTime.difference(QRController.currentStay.startTime);
   QRController.currentStay.dose = duration.inSeconds*RoomController.currentRoom.averageValue*(0.4)*(1.87)*pow(10,-5);
-  DoseController.currentEmp.dose = QRController.currentStay.dose;
+  DoseController.currentEmp.dosis = DoseController.currentEmp.dosis+QRController.currentStay.dose;
   DoseController.setDose(DoseController.currentEmp);
 }
 
-void doseUpdate(double stayDose){
-
-
+void doseUpdate(double stayDose) {
 
 }
