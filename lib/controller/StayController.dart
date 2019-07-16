@@ -10,7 +10,7 @@ import 'dart:convert';
 
 Future<List<StayParse>> fetchAndParseStays() async {
 
-  var jsonEndpoint = 'https://radonweb.herokuapp.com/api/stay';
+  var jsonEndpoint = 'https://radonweb.herokuapp.com/api/stay/employee/1';
 
   var res = await http.get(jsonEndpoint);
   var jsonStr = res.body;
@@ -46,12 +46,14 @@ class StayParse {
   final DateTime startTime;
   final DateTime endTime;
   final int roomId;
+  final int employeeId;
 
   StayParse.fromJsonMap(Map jsonMap) :
         id = jsonMap['id'],
         dose = jsonMap['dose'],
         startTime = DateTime.parse(jsonMap['startTime'].toString()),
         endTime = DateTime.parse(jsonMap['endTime'].toString()),
-        roomId = jsonMap['roomId']
+        roomId = jsonMap['roomId'],
+        employeeId = jsonMap['employeeId']
   ;
 }

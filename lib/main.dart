@@ -4,6 +4,8 @@ import 'package:radon_reporter/view/StaysScreen.dart' as StaysScreen;
 import 'package:radon_reporter/view/QRScreen.dart' as QRScreen;
 import 'package:radon_reporter/view/DoseScreen.dart' as DoseScreen;
 import 'package:radon_reporter/view/RoomsScreen.dart' as RoomScreen;
+import 'package:radon_reporter/view/Colors.dart' as AppColors;
+
 
 
 
@@ -19,6 +21,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: _title,
       home: MyStatefulWidget(),
+      color: Colors.black,
     );
   }
 }
@@ -35,7 +38,7 @@ class MyStatefulWidgetState extends State<MyStatefulWidget> {
   int _currentIndex = 0;
   final List<Widget> _children = [
     QRScreen.QRScanner(),
-    DoseScreen.LastStay(),
+    DoseScreen.AnimatedRadialChartExample(),
     StaysScreen.StayScreen(),
     RoomScreen.RoomScreen()
   ];
@@ -45,6 +48,7 @@ class MyStatefulWidgetState extends State<MyStatefulWidget> {
     return Scaffold(
       body: _children[_currentIndex], // new
       bottomNavigationBar: BottomNavigationBar(
+        fixedColor: AppColors.AppBarTextColor,
         onTap: onTabTapped,   // new
         currentIndex: _currentIndex, // new
         items: [
@@ -67,6 +71,7 @@ class MyStatefulWidgetState extends State<MyStatefulWidget> {
           ),
         ],
         type: BottomNavigationBarType.fixed,
+
       ),
     );
   }

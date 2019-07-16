@@ -20,6 +20,16 @@ var currentEmp = new Employee.Employee();
 //  return stay.first;
 //}
 
+
+Future getEmpDose() async {
+  var empList = await fetchAndParseEmps();
+  empList.sort((a,b) => a.id.compareTo(b.id));
+  currentEmp.dosis  = empList.last.dosis;
+  currentEmp.firstName = empList.last.firstName;
+  currentEmp.lastName = empList.last.lastName;
+  return empList.last.dosis;
+}
+
 Future getEmpDetails() async {
   var empList = await fetchAndParseEmps();
   empList.sort((a,b) => a.id.compareTo(b.id));

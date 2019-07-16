@@ -8,6 +8,8 @@ import 'package:radon_reporter/view/DoseScreen.dart' as DoseScreen;
 import 'package:radon_reporter/controller/DoseCalculation.dart' as DoseCalc;
 import 'package:radon_reporter/controller/RoomController.dart' as RoomController;
 import 'package:radon_reporter/controller/DoseController.dart' as DoseController;
+import 'package:radon_reporter/view/Colors.dart' as AppColors;
+
 
 
 
@@ -35,6 +37,7 @@ class QRScannerState extends State<QRScanner> {
     super.dispose();
   }
 
+
   // Future<String> lastStay = getLastStay();
 
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
@@ -42,8 +45,18 @@ class QRScannerState extends State<QRScanner> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Center(child: Text('Erfassen')),
+      backgroundColor: AppColors.BackgroundColor,
+      appBar: new AppBar(
+        title: const Text('Erfassen'),
+        centerTitle: true,
+        backgroundColor: AppColors.AppBarBackground,
+        textTheme: TextTheme(
+            title: TextStyle(
+              color: AppColors.AppBarTextColor,
+              fontSize: 18.0,
+              fontWeight: FontWeight.bold,
+            )
+        ),
       ),
       body: Column(
         children: <Widget>[
@@ -80,7 +93,9 @@ class QRScannerState extends State<QRScanner> {
             Expanded(
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(0,40,0,40),
-                child: RaisedButton(
+                child: FlatButton(
+                  color: AppColors.ButtonColor,
+                  textColor: AppColors.AppBarTextColor,
                   child: Text('Manuelle Eingabe'),
                   onPressed: (){
                     setState(() {
@@ -115,6 +130,7 @@ class QRScannerState extends State<QRScanner> {
                 Padding(
                   padding: const EdgeInsets.all(20.0),
                   child: TextFormField(
+                    keyboardType: TextInputType.number,
                     decoration: InputDecoration(
                         hintText: 'Bitte geben Sie die Raumnummer ein'
                     ),

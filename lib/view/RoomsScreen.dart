@@ -4,6 +4,8 @@ import 'package:radon_reporter/controller/StayController.dart' as StayController
 import 'package:radon_reporter/controller/QRController.dart' as QRController;
 import 'package:radon_reporter/model/Room.dart' as Room;
 import 'package:radon_reporter/controller/RoomController.dart' as RoomController;
+import 'package:radon_reporter/view/Colors.dart' as AppColors;
+
 
 
 //Some lines of code are from:
@@ -71,7 +73,16 @@ class RoomScreenState extends State<RoomScreen>{
   Widget build(BuildContext context) {
     return new Scaffold(
         appBar: new AppBar(
-          title: Center(child: new Text('Räume')),
+          title: const Text('Räume'),
+          centerTitle: true,
+          backgroundColor: AppColors.AppBarBackground,
+          textTheme: TextTheme(
+              title: TextStyle(
+                color: AppColors.AppBarTextColor,
+                fontSize: 18.0,
+                fontWeight: FontWeight.bold,
+              )
+          ),
         ),
         body:
         Column(

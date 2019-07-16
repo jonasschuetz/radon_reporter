@@ -1,6 +1,7 @@
 import 'dart:ui';
 
-const PrimaryColor =  Color(247247247);
-const PrimaryAssentColor =  Color(0xFF808080);
-const PrimaryDarkColor =  Color(0xFF808080);
-const ErroColor =  Color(0xFF808080);
+const AppBarBackground = Color.fromARGB(255,253, 253, 253);
+const AppBarTextColor = Color.fromARGB(255,10, 18, 21);
+const ButtonColor = Color.fromARGB(8,49, 90, 104);
+const BackgroundColor = Color.fromARGB(255,253, 253, 253);
+const PieChartColor = Color.fromARGB(255,49, 90, 104);

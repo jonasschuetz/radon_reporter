@@ -5,6 +5,8 @@ import 'package:radon_reporter/controller/QRController.dart' as QRController;
 import 'package:radon_reporter/model/Room.dart' as Room;
 import 'package:radon_reporter/controller/RoomController.dart' as RoomController;
 import 'package:radon_reporter/view/Colors.dart' as Colors;
+import 'package:radon_reporter/view/Colors.dart' as AppColors;
+
 
 
 //Some lines of code are from:
@@ -41,23 +43,68 @@ class StayScreenState extends State<StayScreen>{
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 const SizedBox(height: 5.0),
-                new Text(stay.startTime.day.toString()+"."+stay.startTime.month.toString()+"."+stay.startTime.year.toString()),
+                new Text(stay.startTime.day.toString()+"."+stay.startTime.month.toString()+"."+stay.startTime.year.toString(),
+
+                ),
                 const SizedBox(height: 5.0),
                 Card(
                   //color: Color(247247247),
                   child: Padding(
-                    padding: const EdgeInsets.fromLTRB(0,8,0,8),
+                    padding: const EdgeInsets.fromLTRB(0,21,0,8),
                     child: new ListTile(
-                      title: new Text(roomList.elementAt(stay.roomId-1).name),
+                      title: new Text(roomList.elementAt(stay.roomId-1).name,
+                        style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            color: AppColors.AppBarTextColor
+                        ),
+                      ),
                       subtitle: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          new Text("Raumnummer: "+stay.roomId.toString()),
-                          new Text("Aufenthaltsdauer: " +
-                              stay.startTime.hour.toString()+":"+stay.startTime.minute.toString()+
-                              " - "+stay.endTime.hour.toString()+":"+stay.endTime.minute.toString()
+                          const SizedBox(height: 16.0),
+                          Row(
+                            children: <Widget>[
+                              Expanded(
+                                child: new Text("Raumnummer: "),
+                                flex: 1,
+                              ),
+                              Expanded(
+                                child: new Text(stay.roomId.toString()),
+                                flex: 1,
+                              ),
+                            ],
                           ),
-                          new Text("Belastung Raum: "+roomList.elementAt(stay.roomId-1).averageValue.toString() ),
+                          Row(
+                            children: <Widget>[
+                              Expanded(
+                                child: new Text("Aufenthaltsdauer: "),
+                                flex: 1,
+                              ),
+                              Expanded(
+                                child: new Text(stay.startTime.hour.toString()+":"+stay.startTime.minute.toString()+
+                                    " - "+stay.endTime.hour.toString()+":"+stay.endTime.minute.toString()),
+                                flex: 1,
+                              ),
+                            ],
+                          ),
+                          Row(
+                            children: <Widget>[
+                              Expanded(
+                                child: new Text("Belastung Raum: "),
+                                flex: 1,
+                              ),
+                              Expanded(
+                                child: new Text(roomList.elementAt(stay.roomId-1).averageValue.toString()),
+                                flex: 1,
+                              ),
+                            ],
+                          ),
+//                          new Text("Aufenthaltsdauer: " +
+//                              stay.startTime.hour.toString()+":"+stay.startTime.minute.toString()+
+//                              " - "+stay.endTime.hour.toString()+":"+stay.endTime.minute.toString()
+//                          ),
+//                          new Text("Belastung Raum: "+roomList.elementAt(stay.roomId-1).averageValue.toString() ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: <Widget>[
@@ -67,7 +114,14 @@ class StayScreenState extends State<StayScreen>{
                               ),
                               Expanded(
                                   flex: 5,
-                                  child: Center(child: new Text(stay.dose.toString()+" msv"))
+                                  child: Center(child: new Text(stay.dose.toString()+" msv",
+                                    style: TextStyle(
+                                        fontSize: 24,
+                                        fontWeight: FontWeight.bold,
+                                        color: AppColors.AppBarTextColor
+                                      ),
+                                    )
+                                  )
                               ),
                               Expanded(
                                 flex: 0,
@@ -113,7 +167,16 @@ class StayScreenState extends State<StayScreen>{
   Widget build(BuildContext context) {
     return new Scaffold(
         appBar: new AppBar(
-          title: Center(child: new Text('Aufenthalte')),
+          title: const Text('Aufenthalte'),
+          centerTitle: true,
+          backgroundColor: AppColors.AppBarBackground,
+          textTheme: TextTheme(
+              title: TextStyle(
+                color: AppColors.AppBarTextColor,
+                fontSize: 18.0,
+                fontWeight: FontWeight.bold,
+              )
+          ),
         ),
         body:
         Column(
