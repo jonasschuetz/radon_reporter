@@ -100,11 +100,7 @@ class StayScreenState extends State<StayScreen>{
                               ),
                             ],
                           ),
-//                          new Text("Aufenthaltsdauer: " +
-//                              stay.startTime.hour.toString()+":"+stay.startTime.minute.toString()+
-//                              " - "+stay.endTime.hour.toString()+":"+stay.endTime.minute.toString()
-//                          ),
-//                          new Text("Belastung Raum: "+roomList.elementAt(stay.roomId-1).averageValue.toString() ),
+                          const SizedBox(height: 8.0),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: <Widget>[

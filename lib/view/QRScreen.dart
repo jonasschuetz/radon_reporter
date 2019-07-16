@@ -107,17 +107,7 @@ class QRScannerState extends State<QRScanner> {
               ),
             ),
           ),
-//          Visibility(
-//            visible: scan,
-//            child: Expanded(
-//              child:
-//              Padding(
-//                padding: const EdgeInsets.fromLTRB(0,50,0,0),
-//                child: DoseScreen.LastStay(),
-//              ),
-//              flex: 1,
-//            ),
-//          ),
+
 
 
 
@@ -136,7 +126,10 @@ class QRScannerState extends State<QRScanner> {
                     ),
                     controller: myController,
                     onSaved: (String value) {
-                      RoomController.getRoomDetails(int.parse(value));
+//                      var roomID = RoomController.getRoomDetails(int.parse(value));
+//                      qrText = value;
+//                      RoomController.getRoomDetails(int.parse(qrText));
+//                      DoseController.getEmpDetails();
                     },
                   ),
                 ),

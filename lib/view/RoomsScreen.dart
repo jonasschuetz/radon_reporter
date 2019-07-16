@@ -44,16 +44,56 @@ class RoomScreenState extends State<RoomScreen>{
                // new Text(room.startTime.day.toString()+"."+room.startTime.month.toString()+"."+room.startTime.year.toString()),
                 Card(
                   child: Padding(
-                    padding: const EdgeInsets.fromLTRB(0,8,0,8),
+                    padding: const EdgeInsets.fromLTRB(0,16,0,8),
                     child: new ListTile(
-                      title: new Text("ID: "+room.id.toString()),
+                      title: new Text("ID: "+room.id.toString(),
+                        style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            color: AppColors.AppBarTextColor
+                        ),
+                      ),
                       subtitle: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          new Text(room.name),
-                          new Text("Belastung Sommer: " ),
-                          new Text("Belastung Winter: " ),
-                          Center(child: new Text(room.averageValue.toString())),
+
+
+                          const SizedBox(height: 16.0),
+                      Row(
+                        children: <Widget>[
+                          Expanded(
+                            child: new Text(room.name),
+                            flex: 1,
+                          ),
+                        ],
+                      ),
+                      Row(
+                        children: <Widget>[
+                          Expanded(
+                            child: new Text("Belastung Sommer: "),
+                            flex: 1,
+                          ),
+
+                        ],
+                      ),
+                      Row(
+                        children: <Widget>[
+                          Expanded(
+                            child: new Text("Belastung Winter: "),
+                            flex: 1,
+                          ),
+
+                        ],
+                      ),
+                      const SizedBox(height: 16.0),
+                          Center(child: new Text(room.averageValue.toString(),
+                              style: TextStyle(
+                              fontSize: 24,
+                              fontWeight: FontWeight.bold,
+                              color: AppColors.AppBarTextColor
+                            ),
+                           ),
+                          ),
                           Center(child: new Text("Bq/m3")),
                         ],
                       ),
