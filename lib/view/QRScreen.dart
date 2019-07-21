@@ -41,7 +41,10 @@ class QRScannerState extends State<QRScanner> {
   // Future<String> lastStay = getLastStay();
 
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
+  final _formKey = GlobalKey<FormState>();
+  var _passKey = GlobalKey<FormFieldState>();
   var qrText = "";
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -119,18 +122,24 @@ class QRScannerState extends State<QRScanner> {
                 const SizedBox(height: 100.0),
                 Padding(
                   padding: const EdgeInsets.all(20.0),
-                  child: TextFormField(
-                    keyboardType: TextInputType.number,
-                    decoration: InputDecoration(
-                        hintText: 'Bitte geben Sie die Raumnummer ein'
+                  child: Form(
+                    key: this._formKey,
+                    child: TextFormField(
+                      keyboardType: TextInputType.number,
+                      decoration: InputDecoration(
+                          hintText: 'Bitte geben Sie die Raumnummer ein'
+                      ),
+                      controller: myController,
+                      onSaved: (value) {
+                        setState(() {
+                          print(value);
+                          qrText = value;
+                          QRController.currentStay.startTime = DateTime.now();
+                          RoomController.getRoomDetails(int.parse(value));
+                          DoseController.getEmpDetails();
+                        });
+                      },
                     ),
-                    controller: myController,
-                    onSaved: (String value) {
-//                      var roomID = RoomController.getRoomDetails(int.parse(value));
-//                      qrText = value;
-//                      RoomController.getRoomDetails(int.parse(qrText));
-//                      DoseController.getEmpDetails();
-                    },
                   ),
                 ),
                 const SizedBox(height: 20.0),
@@ -138,7 +147,7 @@ class QRScannerState extends State<QRScanner> {
                   child: Text('Aufenthalt starten'),
                   onPressed: () {
                     setState(() {
-                      QRController.currentStay.startTime = DateTime.now();
+                      _formKey.currentState.save();
                       scan = false;
                       manual = false;
                       stop = true;
