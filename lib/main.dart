@@ -6,10 +6,11 @@ import 'package:radon_reporter/view/DoseScreen.dart' as DoseScreen;
 import 'package:radon_reporter/view/RoomsScreen.dart' as RoomScreen;
 import 'package:radon_reporter/view/Colors.dart' as AppColors;
 
-
-main(List<String> arguments) async {
+main() async {
   runApp(MyApp());
 }
+
+var currentEmpId = 2;
 
 class MyApp extends StatelessWidget {
   static const String _title = 'Flutter Code Sample';

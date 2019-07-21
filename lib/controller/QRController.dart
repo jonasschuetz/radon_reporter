@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:http/http.dart' as http;
 import 'package:radon_reporter/model/Stay.dart' as Stay;
 import 'package:radon_reporter/controller/DoseCalculation.dart' as doseCalc;
+import 'package:radon_reporter/main.dart' as Main;
+
 
 
 var currentStay = new Stay.Stay();
@@ -26,6 +28,7 @@ void setStay(Stay.Stay currentStay) async {
 
 void stopStay() async{
   currentStay.endTime = DateTime.now();
+  currentStay.employeeId = Main.currentEmpId;
   doseCalc.doseCalculation();
   setStay(currentStay);
 }

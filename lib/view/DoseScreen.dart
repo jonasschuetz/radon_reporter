@@ -7,6 +7,8 @@ import 'package:flutter/widgets.dart';
 import 'package:radon_reporter/controller/StayController.dart' as StayController;
 import 'package:radon_reporter/controller/RoomController.dart' as RoomController;
 import 'package:radon_reporter/view/Colors.dart' as Colors;
+import 'package:radon_reporter/main.dart' as Main;
+
 
 
 void main() {
@@ -45,9 +47,9 @@ class _AnimatedRadialChartExampleState extends State<AnimatedRadialChartExample>
 
 
   Future _increment() async {
-    var f = await DoseController.getEmpDose();
+    var dosis = await DoseController.getEmpDose(Main.currentEmpId);
     setState(() {
-      value = f;
+      value = dosis;
       List<CircularStackEntry> data = _generateChartData(value * 10);
       _chartKey.currentState.updateData(data);
     });

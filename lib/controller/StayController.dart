@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:http/http.dart' as http;
 import 'package:radon_reporter/model/Stay.dart' as Stay;
 import 'dart:convert';
+import 'package:radon_reporter/main.dart' as Main;
+
 
 // Copyright 2017 The Chromium Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style license that can be
@@ -10,7 +12,7 @@ import 'dart:convert';
 
 Future<List<StayParse>> fetchAndParseStays() async {
 
-  var jsonEndpoint = 'https://radonweb.herokuapp.com/api/stay/employee/1';
+  var jsonEndpoint = 'https://radonweb.herokuapp.com/api/stay/employee/'+Main.currentEmpId.toString();
 
   var res = await http.get(jsonEndpoint);
   var jsonStr = res.body;
@@ -23,22 +25,22 @@ Future<List<StayParse>> fetchAndParseStays() async {
   });
   return stayList;
 }
-
-Future<List<StayParse>> fetchAndParseStay(int id) async {
-
-  var jsonEndpoint = 'https://radonweb.herokuapp.com/api/stay/'+id.toString();
-
-  var res = await http.get(jsonEndpoint);
-  var jsonStr = res.body;
-  var parsedStayList = jsonDecode(jsonStr);
-  var stayList = <StayParse>[];
-  parsedStayList.forEach((parsedStay) {
-    stayList.add(
-        new StayParse.fromJsonMap(parsedStay)
-    );
-  });
-  return stayList;
-}
+//
+//Future<List<StayParse>> fetchAndParseStay(int id) async {
+//
+//  var jsonEndpoint = 'https://radonweb.herokuapp.com/api/stay/'+id.toString();
+//
+//  var res = await http.get(jsonEndpoint);
+//  var jsonStr = res.body;
+//  var parsedStayList = jsonDecode(jsonStr);
+//  var stayList = <StayParse>[];
+//  parsedStayList.forEach((parsedStay) {
+//    stayList.add(
+//        new StayParse.fromJsonMap(parsedStay)
+//    );
+//  });
+//  return stayList;
+//}
 
 class StayParse {
   final int id;

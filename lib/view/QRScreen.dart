@@ -144,7 +144,7 @@ class QRScannerState extends State<QRScanner> {
                           qrText = value;
                           QRController.currentStay.startTime = DateTime.now();
                           RoomController.getRoomDetails(int.parse(value));
-                          DoseController.getEmpDetails();
+                          DoseController.getEmpDetails(Main.currentEmpId);
                         });
                       },
                     ),
@@ -176,7 +176,6 @@ class QRScannerState extends State<QRScanner> {
                 Text('Raumnummer '+qrText),
                 const SizedBox(height: 8.0),
                 Text('Aufenthalt gestartet '+DateTime.now().hour.toString()+":"+DateTime.now().minute.toString()
-                   // +QRController.currentStay.startTime.hour.toString()+":"+QRController.currentStay.startTime.minute.toString()
                 ),
                 const SizedBox(height: 50.0),
                 Center(
@@ -214,7 +213,7 @@ class QRScannerState extends State<QRScanner> {
             stop = true;
             scan = false;
             RoomController.getRoomDetails(int.parse(qrText));
-            DoseController.getEmpDetails();
+            DoseController.getEmpDetails(Main.currentEmpId);
           });
       }
     });
@@ -222,11 +221,11 @@ class QRScannerState extends State<QRScanner> {
 }
 
 
-Future<String> getLastStay() async {
-  List<Widget> widgets = [];
-  var stayList = await StayController.fetchAndParseStays();
-  var lastStay = stayList.last;
-
-  return lastStay.startTime.toIso8601String();
-}
+//Future<String> getLastStay() async {
+//  List<Widget> widgets = [];
+//  var stayList = await StayController.fetchAndParseStays();
+//  var lastStay = stayList.last;
+//
+//  return lastStay.startTime.toIso8601String();
+//}
 
