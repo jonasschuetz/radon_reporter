@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:radon_reporter/controller/StayController.dart' as StayController;
-import 'package:radon_reporter/controller/QRController.dart' as QRController;
-import 'package:radon_reporter/model/Room.dart' as Room;
 import 'package:radon_reporter/controller/RoomController.dart' as RoomController;
-import 'package:radon_reporter/view/Colors.dart' as Colors;
 import 'package:radon_reporter/view/Colors.dart' as AppColors;
 
 
@@ -49,7 +46,7 @@ class StayScreenState extends State<StayScreen>{
                   style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
-                      color: AppColors.AppBarTextColor
+                      color: AppColors.TextColor
                   ),
                 ),
                 const SizedBox(height: 5.0),
@@ -62,7 +59,7 @@ class StayScreenState extends State<StayScreen>{
                         style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
-                            color: AppColors.AppBarTextColor
+                            color: AppColors.TextColor
                         ),
                       ),
                       subtitle: Column(
@@ -120,7 +117,7 @@ class StayScreenState extends State<StayScreen>{
                                     style: TextStyle(
                                         fontSize: 24,
                                         fontWeight: FontWeight.bold,
-                                        color: AppColors.AppBarTextColor
+                                        color: AppColors.TextColor
                                       ),
                                     )
                                   )
@@ -174,7 +171,7 @@ class StayScreenState extends State<StayScreen>{
           backgroundColor: AppColors.AppBarBackground,
           textTheme: TextTheme(
               title: TextStyle(
-                color: AppColors.AppBarTextColor,
+                color: AppColors.TextColor,
                 fontSize: 18.0,
                 fontWeight: FontWeight.bold,
               )

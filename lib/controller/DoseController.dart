@@ -27,24 +27,12 @@ Future<EmpParse> fetchAndParseEmps(int id) async {
 
   var res = await http.get(jsonEndpoint);
   var jsonStr = res.body;
-  var parsedRoomsList = jsonDecode(jsonStr);
-  print(parsedRoomsList);
-  var roomList = <EmpParse>[];
-  var room  = new EmpParse.fromJsonMap(parsedRoomsList);
-  print(roomList);
-  return room;
-
-//  var res = await http.get(jsonEndpoint);
-//  var jsonStr = res.body;
-//  var parsedEmpList = jsonDecode(jsonStr);
-//  var empList = <EmpParse>[];
-//  print(empList);
-//  parsedEmpList.forEach((parsedEmp) {
-//    empList.add(
-//        new EmpParse.fromJsonMap(parsedEmp)
-//    );
-//  });
-//  return empList;
+  var parsedEmpList = jsonDecode(jsonStr);
+  print(parsedEmpList);
+  var EmpList = <EmpParse>[];
+  var emp  = new EmpParse.fromJsonMap(parsedEmpList);
+  print(EmpList);
+  return emp;
 }
 
 class EmpParse {

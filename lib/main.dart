@@ -48,7 +48,7 @@ class MyStatefulWidgetState extends State<MyStatefulWidget> {
     return Scaffold(
       body: _children[currentIndex],
       bottomNavigationBar: BottomNavigationBar(
-        fixedColor: AppColors.AppBarTextColor,
+        fixedColor: AppColors.TextColor,
         onTap: onTabTapped,
         currentIndex: currentIndex,
         items: [

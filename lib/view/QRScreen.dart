@@ -2,18 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:flutter/widgets.dart';
-import 'package:radon_reporter/controller/QRController.dart' as QRController;
 import 'package:radon_reporter/controller/StayController.dart' as StayController;
 import 'package:radon_reporter/view/DoseScreen.dart' as DoseScreen;
-import 'package:radon_reporter/controller/DoseCalculation.dart' as DoseCalc;
 import 'package:radon_reporter/controller/RoomController.dart' as RoomController;
 import 'package:radon_reporter/controller/DoseController.dart' as DoseController;
 import 'package:radon_reporter/view/Colors.dart' as AppColors;
 import 'package:radon_reporter/main.dart' as Main;
-
-
-
-
 
 class QRScanner extends StatefulWidget {
   const QRScanner({
@@ -39,9 +33,6 @@ class QRScannerState extends State<QRScanner> {
     super.dispose();
   }
 
-
-  // Future<String> lastStay = getLastStay();
-
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
   final _formKey = GlobalKey<FormState>();
   var _passKey = GlobalKey<FormFieldState>();
@@ -57,7 +48,7 @@ class QRScannerState extends State<QRScanner> {
         backgroundColor: AppColors.AppBarBackground,
         textTheme: TextTheme(
             title: TextStyle(
-              color: AppColors.AppBarTextColor,
+              color: AppColors.TextColor,
               fontSize: 18.0,
               fontWeight: FontWeight.bold,
             )
@@ -75,7 +66,7 @@ class QRScannerState extends State<QRScanner> {
                   style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
-                      color: AppColors.AppBarTextColor
+                      color: AppColors.TextColor
                   ),
                 ),
               ),
@@ -106,7 +97,7 @@ class QRScannerState extends State<QRScanner> {
                 padding: const EdgeInsets.fromLTRB(0,40,0,40),
                 child: FlatButton(
                   color: AppColors.ButtonColor,
-                  textColor: AppColors.AppBarTextColor,
+                  textColor: AppColors.TextColor,
                   child: Text('Manuelle Eingabe'),
                   onPressed: (){
                     setState(() {
@@ -142,7 +133,7 @@ class QRScannerState extends State<QRScanner> {
                         setState(() {
                           print(value);
                           qrText = value;
-                          QRController.currentStay.startTime = DateTime.now();
+                          StayController.currentStay.startTime = DateTime.now();
                           RoomController.getRoomDetails(int.parse(value));
                           DoseController.getEmpDetails(Main.currentEmpId);
                         });
@@ -182,7 +173,7 @@ class QRScannerState extends State<QRScanner> {
                   child: RaisedButton(
                     child: Text('Stopp'),
                     onPressed: () {
-                      QRController.stopStay();
+                      StayController.stopStay();
                       setState(() {
                         stop = false;
                         scan = true;
@@ -209,7 +200,7 @@ class QRScannerState extends State<QRScanner> {
           dynamic arguments = call.arguments;
           setState(() {
             qrText = arguments.toString();
-            QRController.currentStay.startTime = DateTime.now();
+            StayController.currentStay.startTime = DateTime.now();
             stop = true;
             scan = false;
             RoomController.getRoomDetails(int.parse(qrText));
@@ -219,13 +210,3 @@ class QRScannerState extends State<QRScanner> {
     });
   }
 }
-
-
-//Future<String> getLastStay() async {
-//  List<Widget> widgets = [];
-//  var stayList = await StayController.fetchAndParseStays();
-//  var lastStay = stayList.last;
-//
-//  return lastStay.startTime.toIso8601String();
-//}
-

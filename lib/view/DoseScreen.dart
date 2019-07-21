@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_circular_chart/flutter_circular_chart.dart';
 import 'package:radon_reporter/controller/DoseController.dart' as DoseController;
@@ -6,7 +5,6 @@ import 'package:radon_reporter/view/Colors.dart' as AppColors;
 import 'package:flutter/widgets.dart';
 import 'package:radon_reporter/controller/StayController.dart' as StayController;
 import 'package:radon_reporter/controller/RoomController.dart' as RoomController;
-import 'package:radon_reporter/view/Colors.dart' as Colors;
 import 'package:radon_reporter/main.dart' as Main;
 
 
@@ -30,7 +28,7 @@ class _AnimatedRadialChartExampleState extends State<AnimatedRadialChartExample>
   final _chartSize = const Size(200.0, 200.0);
 
   double value = 0.0;
-  Color labelColor = AppColors.AppBarTextColor;
+  Color labelColor = AppColors.TextColor;
   RoomController.RoomParse room;
   StayController.StayParse stay;
 
@@ -101,7 +99,7 @@ class _AnimatedRadialChartExampleState extends State<AnimatedRadialChartExample>
         backgroundColor: AppColors.AppBarBackground,
         textTheme: TextTheme(
             title: TextStyle(
-              color: AppColors.AppBarTextColor,
+              color: AppColors.TextColor,
               fontSize: 18.0,
               fontWeight: FontWeight.bold,
             )
@@ -115,7 +113,7 @@ class _AnimatedRadialChartExampleState extends State<AnimatedRadialChartExample>
               style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
-                  color: AppColors.AppBarTextColor
+                  color: AppColors.TextColor
               ),
             ),
           ),
@@ -142,7 +140,7 @@ class _AnimatedRadialChartExampleState extends State<AnimatedRadialChartExample>
               style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
-                  color: AppColors.AppBarTextColor
+                  color: AppColors.TextColor
               ),
             ),
           ),
@@ -187,7 +185,7 @@ class _AnimatedRadialChartExampleState extends State<AnimatedRadialChartExample>
                         style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
-                            color: AppColors.AppBarTextColor
+                            color: AppColors.TextColor
                         ),
                       ),
                       subtitle: Column(
@@ -245,7 +243,7 @@ class _AnimatedRadialChartExampleState extends State<AnimatedRadialChartExample>
                                     style: TextStyle(
                                         fontSize: 24,
                                         fontWeight: FontWeight.bold,
-                                        color: AppColors.AppBarTextColor
+                                        color: AppColors.TextColor
                                     ),
                                   )
                                   )
@@ -287,6 +285,4 @@ class _AnimatedRadialChartExampleState extends State<AnimatedRadialChartExample>
     );
     setState(() => this._stayWidgets = widgets);
   }
-//}
-
 }

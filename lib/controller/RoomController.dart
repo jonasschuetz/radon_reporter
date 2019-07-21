@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:async';
 import 'package:http/http.dart' as http;
 import 'package:radon_reporter/model/Room.dart' as Room;
-import 'package:radon_reporter/controller/QRController.dart' as QRController;
+import 'package:radon_reporter/controller/StayController.dart' as StayController;
 
 var currentRoom = new Room.Room();
 
@@ -10,8 +10,8 @@ Future getRoomDetails (int id) async {
   var room = await fetchAndParseRoom(id);
   currentRoom.name = room.name;
   currentRoom.averageValue = room.averageValue;
-  QRController.currentStay.roomId = room.id;
-  print(QRController.currentStay.roomId.toString());
+  StayController.currentStay.roomId = room.id;
+  print(StayController.currentStay.roomId.toString());
 }
 
 Future<RoomParse> fetchAndParseRoom(int id) async {
