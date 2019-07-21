@@ -7,8 +7,6 @@ import 'package:radon_reporter/view/RoomsScreen.dart' as RoomScreen;
 import 'package:radon_reporter/view/Colors.dart' as AppColors;
 
 
-
-
 main(List<String> arguments) async {
   runApp(MyApp());
 }
@@ -35,7 +33,8 @@ class MyStatefulWidget extends StatefulWidget {
 
 class MyStatefulWidgetState extends State<MyStatefulWidget> {
 
-  int _currentIndex = 0;
+  int currentIndex = 0;
+
   final List<Widget> _children = [
     QRScreen.QRScanner(),
     DoseScreen.AnimatedRadialChartExample(),
@@ -46,11 +45,11 @@ class MyStatefulWidgetState extends State<MyStatefulWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _children[_currentIndex], // new
+      body: _children[currentIndex],
       bottomNavigationBar: BottomNavigationBar(
         fixedColor: AppColors.AppBarTextColor,
-        onTap: onTabTapped,   // new
-        currentIndex: _currentIndex, // new
+        onTap: onTabTapped,
+        currentIndex: currentIndex,
         items: [
           new BottomNavigationBarItem(
             icon: Icon(Icons.access_time),
@@ -64,21 +63,19 @@ class MyStatefulWidgetState extends State<MyStatefulWidget> {
             icon: Icon(Icons.view_list),
             title: Text('Aufenthalte'),
           ),
-
           new BottomNavigationBarItem(
             icon: Icon(Icons.business),
             title: Text('Anlagen'),
           ),
         ],
         type: BottomNavigationBarType.fixed,
-
       ),
     );
   }
 
   void onTabTapped(int index) {
     setState(() {
-      _currentIndex = index;
+      currentIndex = index;
     });
   }
 

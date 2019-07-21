@@ -9,6 +9,8 @@ import 'package:radon_reporter/controller/DoseCalculation.dart' as DoseCalc;
 import 'package:radon_reporter/controller/RoomController.dart' as RoomController;
 import 'package:radon_reporter/controller/DoseController.dart' as DoseController;
 import 'package:radon_reporter/view/Colors.dart' as AppColors;
+import 'package:radon_reporter/main.dart' as Main;
+
 
 
 
@@ -69,7 +71,13 @@ class QRScannerState extends State<QRScanner> {
               child:
               Padding(
                 padding: const EdgeInsets.fromLTRB(0,50,0,0),
-                child: Text("Bitte scannen Sie den QR Code"),
+                child: Text("Bitte scannen Sie den QR Code",
+                  style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: AppColors.AppBarTextColor
+                  ),
+                ),
               ),
               flex: 1,
             ),

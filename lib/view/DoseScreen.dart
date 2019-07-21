@@ -172,9 +172,9 @@ class _AnimatedRadialChartExampleState extends State<AnimatedRadialChartExample>
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 const SizedBox(height: 5.0),
-                new Text(stay.startTime.day.toString()+"."+stay.startTime.month.toString()+"."+stay.startTime.year.toString(),
-
-                ),
+//                new Text(stay.startTime.day.toString()+"."+stay.startTime.month.toString()+"."+stay.startTime.year.toString(),
+//
+//                ),
                 const SizedBox(height: 5.0),
                 Card(
                   //color: Color(247247247),

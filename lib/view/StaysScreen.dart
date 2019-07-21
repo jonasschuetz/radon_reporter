@@ -37,14 +37,20 @@ class StayScreenState extends State<StayScreen>{
     var roomList = await RoomController.fetchAndParseRooms();
     stayList.sort((a,b) => b.startTime.compareTo(a.startTime));
     roomList.sort((a,b) => a.id.compareTo(b.id));
+
     stayList.forEach((stay) =>
         widgets.add(
             Column(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 const SizedBox(height: 5.0),
-                new Text(stay.startTime.day.toString()+"."+stay.startTime.month.toString()+"."+stay.startTime.year.toString(),
-
+                new Text(
+                  stay.startTime.day.toString()+"."+stay.startTime.month.toString()+"."+stay.startTime.year.toString(),
+                  style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: AppColors.AppBarTextColor
+                  ),
                 ),
                 const SizedBox(height: 5.0),
                 Card(
