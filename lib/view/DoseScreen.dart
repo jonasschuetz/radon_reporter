@@ -7,7 +7,8 @@ import 'package:radon_reporter/controller/StayController.dart' as StayController
 import 'package:radon_reporter/controller/RoomController.dart' as RoomController;
 import 'package:radon_reporter/main.dart' as Main;
 
-
+// Some lines of code are from:
+// Copyright (c) 2017 Victor Choueiri
 
 void main() {
   runApp(new MaterialApp(
@@ -91,7 +92,6 @@ class _AnimatedRadialChartExampleState extends State<AnimatedRadialChartExample>
         .textTheme
         .title
         .merge(new TextStyle(color: labelColor));
-
     return new Scaffold(
       appBar: new AppBar(
         title: const Text('Dosis'),

@@ -9,6 +9,9 @@ import 'package:radon_reporter/controller/DoseController.dart' as DoseController
 import 'package:radon_reporter/view/Colors.dart' as AppColors;
 import 'package:radon_reporter/main.dart' as Main;
 
+// Some lines of code are from:
+// Copyright 2018 Julius Canute
+
 class QRScanner extends StatefulWidget {
   const QRScanner({
     Key key,
@@ -35,7 +38,6 @@ class QRScannerState extends State<QRScanner> {
 
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
   final _formKey = GlobalKey<FormState>();
-  var _passKey = GlobalKey<FormFieldState>();
   var qrText = "";
 
   @override
@@ -82,7 +84,7 @@ class QRScannerState extends State<QRScanner> {
                   padding: const EdgeInsets.fromLTRB(20,0,20,40),
                   child: QRView(
                     key: qrKey,
-                    onQRViewCreated: _onQRViewCreated,
+                    onQRViewCreated: _idEntered,
                   ),
                 ),
               ),
@@ -190,7 +192,8 @@ class QRScannerState extends State<QRScanner> {
   }
 
 
-  void _onQRViewCreated(QRViewController controller) {
+  void _idEntered(QRViewController controller) {
+
     final channel = controller.channel;
     controller.init(qrKey);
 
@@ -205,7 +208,8 @@ class QRScannerState extends State<QRScanner> {
             scan = false;
             RoomController.getRoomDetails(int.parse(qrText));
             DoseController.getEmpDetails(Main.currentEmpId);
-          });
+          }
+          );
       }
     });
   }

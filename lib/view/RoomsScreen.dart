@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-
 import 'package:radon_reporter/controller/RoomController.dart' as RoomController;
 import 'package:radon_reporter/view/Colors.dart' as AppColors;
 
-
-
-//Some lines of code are from:
+// Some lines of code are from:
 // Copyright 2017 The Chromium Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
@@ -31,15 +28,12 @@ class RoomScreenState extends State<RoomScreen>{
   _getRooms() async {
     List<Widget> widgets = [];
     var roomList = await RoomController.fetchAndParseRooms();
-    //stayList.where((stay)=> stay.id==1);
     roomList.sort((a,b) => a.id.compareTo(b.id));
     roomList.forEach((room) =>
         widgets.add(
             Column(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
-                //todo: Anlagename
-               // new Text(room.startTime.day.toString()+"."+room.startTime.month.toString()+"."+room.startTime.year.toString()),
                 Card(
                   child: Padding(
                     padding: const EdgeInsets.fromLTRB(0,16,0,8),
@@ -54,8 +48,6 @@ class RoomScreenState extends State<RoomScreen>{
                       subtitle: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-
-
                           const SizedBox(height: 16.0),
                       Row(
                         children: <Widget>[
@@ -71,7 +63,6 @@ class RoomScreenState extends State<RoomScreen>{
                             child: new Text("Belastung Sommer: "),
                             flex: 1,
                           ),
-
                         ],
                       ),
                       Row(
@@ -80,7 +71,6 @@ class RoomScreenState extends State<RoomScreen>{
                             child: new Text("Belastung Winter: "),
                             flex: 1,
                           ),
-
                         ],
                       ),
                       const SizedBox(height: 16.0),
@@ -125,7 +115,8 @@ class RoomScreenState extends State<RoomScreen>{
         body:
         Column(
           children: <Widget>[
-            Container(child: Column(
+            Container(child:
+              Column(
               children: <Widget>[
                 const SizedBox(height: 20.0),
                 Row(
@@ -149,7 +140,7 @@ class RoomScreenState extends State<RoomScreen>{
                 ),
                 const SizedBox(height: 20.0),
               ],
-            ),
+              ),
             ),
             Expanded(
                 child:
