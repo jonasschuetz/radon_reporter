@@ -33,10 +33,8 @@ Future<EmpParse> fetchAndParseEmps(int id) async {
   var res = await http.get(jsonEndpoint);
   var jsonStr = res.body;
   var parsedEmpList = jsonDecode(jsonStr);
-  print(parsedEmpList);
   var EmpList = <EmpParse>[];
   var emp  = new EmpParse.fromJsonMap(parsedEmpList);
-  print(EmpList);
   return emp;
 }
 

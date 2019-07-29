@@ -134,7 +134,6 @@ class QRScannerState extends State<QRScanner> {
                       controller: myController,
                       onSaved: (value) {
                         setState(() {
-                          print(value);
                           qrText = value;
                           StayController.currentStay.startTime = DateTime.now();
                           RoomController.getRoomDetails(int.parse(value));

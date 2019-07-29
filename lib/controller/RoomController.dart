@@ -27,10 +27,8 @@ Future<RoomParse> fetchAndParseRoom(int id) async {
   var res = await http.get(jsonEndpoint);
   var jsonStr = res.body;
   var parsedRoomsList = jsonDecode(jsonStr);
-  print(parsedRoomsList);
   var roomList = <RoomParse>[];
   var room  = new RoomParse.fromJsonMap(parsedRoomsList);
-  print(roomList);
   return room;
 }
 
