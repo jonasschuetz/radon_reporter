@@ -29,7 +29,7 @@ Future<List<StayParse>> fetchAndParseStays() async {
   return stayList;
 }
 
-void setStay(Stay.Stay currentStay) async {
+void _setStay(Stay.Stay currentStay) async {
   var url = 'https://radonweb.herokuapp.com/api/stay/create';
   var jsonData = currentStay.toJson(currentStay);
 
@@ -50,7 +50,8 @@ void stopStay() async{
   currentStay.endTime = DateTime.now();
   currentStay.employeeId = Main.currentEmpId;
   doseCalc.doseCalculation();
-  setStay(currentStay);
+
+  _setStay(currentStay);
 }
 
 class StayParse {

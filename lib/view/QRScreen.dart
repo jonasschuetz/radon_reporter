@@ -9,6 +9,7 @@ import 'package:radon_reporter/controller/DoseController.dart' as DoseController
 import 'package:radon_reporter/view/Colors.dart' as AppColors;
 import 'package:radon_reporter/main.dart' as Main;
 
+
 // Some lines of code are from:
 // Copyright 2018 Julius Canute
 
@@ -31,7 +32,6 @@ class QRScannerState extends State<QRScanner> {
 
   @override
   void dispose() {
-    // Clean up the controller when the widget is disposed.
     myController.dispose();
     super.dispose();
   }
@@ -56,7 +56,8 @@ class QRScannerState extends State<QRScanner> {
             )
         ),
       ),
-      body: Column(
+      body:
+      Column(
         children: <Widget>[
           Visibility(
             visible: scan,

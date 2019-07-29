@@ -12,17 +12,17 @@ import 'package:radon_reporter/main.dart' as Main;
 
 void main() {
   runApp(new MaterialApp(
-    home: new AnimatedRadialChartExample(),
+    home: new DoseChart(),
   ));
 }
 
-class AnimatedRadialChartExample extends StatefulWidget {
+class DoseChart extends StatefulWidget {
   @override
-  _AnimatedRadialChartExampleState createState() =>
-      new _AnimatedRadialChartExampleState();
+  _DoseChartState createState() =>
+      new _DoseChartState();
 }
 
-class _AnimatedRadialChartExampleState extends State<AnimatedRadialChartExample> {
+class _DoseChartState extends State<DoseChart> {
 
   final GlobalKey<AnimatedCircularChartState> _chartKey =
   new GlobalKey<AnimatedCircularChartState>();
@@ -40,8 +40,8 @@ class _AnimatedRadialChartExampleState extends State<AnimatedRadialChartExample>
   void initState() {
     super.initState();
     _increment();
-    getStayData();
-    _getStays();
+    _getStayData();
+    _getLastStay();
   }
 
 
@@ -54,7 +54,7 @@ class _AnimatedRadialChartExampleState extends State<AnimatedRadialChartExample>
     });
   }
 
-  void getStayData() async {
+  void _getStayData() async {
     var stayList = await StayController.fetchAndParseStays();
     var roomList = await RoomController.fetchAndParseRooms();
     stayList.sort((a, b) => b.startTime.compareTo(a.startTime));
@@ -157,7 +157,7 @@ class _AnimatedRadialChartExampleState extends State<AnimatedRadialChartExample>
   }
 
 
-  _getStays() async {
+  _getLastStay() async {
     List<Widget> widgets = [];
     var stayList = await StayController.fetchAndParseStays();
     var roomList = await RoomController.fetchAndParseRooms();
@@ -172,12 +172,8 @@ class _AnimatedRadialChartExampleState extends State<AnimatedRadialChartExample>
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 const SizedBox(height: 5.0),
-//                new Text(stay.startTime.day.toString()+"."+stay.startTime.month.toString()+"."+stay.startTime.year.toString(),
-//
-//                ),
                 const SizedBox(height: 5.0),
                 Card(
-                  //color: Color(247247247),
                   child: Padding(
                     padding: const EdgeInsets.fromLTRB(0,21,0,8),
                     child: new ListTile(

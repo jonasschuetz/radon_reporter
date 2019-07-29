@@ -18,8 +18,6 @@ class StayScreen extends StatefulWidget {
 
 class StayScreenState extends State<StayScreen>{
 
-  TabController _tabController;
-
   var _stayWidgets = <Widget>[];
 
   @override
@@ -51,7 +49,6 @@ class StayScreenState extends State<StayScreen>{
                 ),
                 const SizedBox(height: 5.0),
                 Card(
-                  //color: Color(247247247),
                   child: Padding(
                     padding: const EdgeInsets.fromLTRB(0,21,0,8),
                     child: new ListTile(

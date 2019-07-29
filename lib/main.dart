@@ -10,7 +10,7 @@ main() async {
   runApp(MyApp());
 }
 
-var currentEmpId = 2;
+var currentEmpId = 2; //Set here the current employee ID
 
 class MyApp extends StatelessWidget {
   static const String _title = 'Flutter Code Sample';
@@ -38,7 +38,7 @@ class MyStatefulWidgetState extends State<MyStatefulWidget> {
 
   final List<Widget> _children = [
     QRScreen.QRScanner(),
-    DoseScreen.AnimatedRadialChartExample(),
+    DoseScreen.DoseChart(),
     StaysScreen.StayScreen(),
     RoomScreen.RoomScreen()
   ];
@@ -66,7 +66,7 @@ class MyStatefulWidgetState extends State<MyStatefulWidget> {
           ),
           new BottomNavigationBarItem(
             icon: Icon(Icons.business),
-            title: Text('Anlagen'),
+            title: Text('Räume'),
           ),
         ],
         type: BottomNavigationBarType.fixed,

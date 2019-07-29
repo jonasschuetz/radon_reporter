@@ -15,9 +15,7 @@ class RoomScreen extends StatefulWidget {
 
 class RoomScreenState extends State<RoomScreen>{
 
-  TabController _tabController;
-
-      var _roomWidgets = <Widget>[];
+  var _roomWidgets = <Widget>[];
 
   @override
   void initState() {
@@ -94,8 +92,6 @@ class RoomScreenState extends State<RoomScreen>{
     );
     setState(() => this._roomWidgets = widgets);
   }
-
-
 
   @override
   Widget build(BuildContext context) {
