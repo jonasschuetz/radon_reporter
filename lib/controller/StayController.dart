@@ -64,7 +64,7 @@ class StayParse {
 
   StayParse.fromJsonMap(Map jsonMap) :
         id = jsonMap['id'],
-        dose = jsonMap['dose'],
+        dose = jsonMap['dose'].toDouble(),
         startTime = DateTime.parse(jsonMap['startTime'].toString()),
         endTime = DateTime.parse(jsonMap['endTime'].toString()),
         roomId = jsonMap['roomId'],
